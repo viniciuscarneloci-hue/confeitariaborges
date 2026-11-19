@@ -6,7 +6,7 @@ import { money, kg, grams } from '../lib/format'
 import { cart } from '../lib/cart'
 import { ProductArt } from '../ui/CakeArt'
 import { Icon } from '../ui/Icon'
-import { ARViewer } from './ARViewer'
+import { ARViewer, preloadViewer } from './ARViewer'
 
 export function ProductSheet({ product: p, ready, readyAll, tab, onClose, onAdded }: {
   product: Product; tab: 'encomenda' | 'pronta'; ready?: ReadyItem; readyAll: ReadyItem[]; store: Store; openState: OpenState; onClose: () => void; onAdded: () => void
@@ -21,6 +21,7 @@ export function ProductSheet({ product: p, ready, readyAll, tab, onClose, onAdde
   const [showNotes, setShowNotes] = useState(false)
   const [ar, setAr] = useState(false)
   const isCake = p.pricing === 'kg'
+  useEffect(() => { if (p.model_3d) preloadViewer() }, [])
   const fr = p.formats?.find((f) => f.format === format)
   useEffect(() => { if (fr && weight > fr.max_kg) setWeight(fr.max_kg) }, [format])
   useEffect(() => { const k = (e: KeyboardEvent) => e.key === 'Escape' && (ar ? setAr(false) : onClose()); window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k) }, [ar])
