@@ -12,23 +12,7 @@
   --f-head: 'Manrope', 'Segoe UI', system-ui, sans-serif;
   --f-body: 'Manrope', 'Segoe UI', system-ui, sans-serif;
   --r-lg: 22px; --r-md: 14px; --r-sm: 10px;
-}
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --page: #0B1220; --soft: #141D2E; --surface: #0B1220; --ink: #EAF1FA; --ink-2: #B9C7DA; --muted: #8C9CB4; --line: #213150;
-  --navy: #CFE4F5; --on-navy: #0F1F3D; --sky: #6FAEDB; --sky-wash: #141D2E; --sky-ink: #A9D3F1;
-  --gold: #DDB76B; --gold-soft: #141D2E; --gold-bar: #C9A24E;
-  --ok: #6FD39C; --ok-soft: #123425; --wait: #F0C25A; --wait-soft: #3A2E12; --neg: #FF8A80;
-  --wa: #1FA85A; --on-wa: #FFFFFF; --bar: #5E9FD8; --bar-hot: #A9D3F1; --grid: #1C2B46;
-  --shadow: 0 18px 50px -20px rgba(0, 0, 0, .7);
-  --sky-a: #0B1220; --sky-b: #0B1220; --sky-c: #0B1220; color-scheme: dark; } }
-:root[data-theme="dark"] {
-  --page: #0B1220; --soft: #141D2E; --surface: #0B1220; --ink: #EAF1FA; --ink-2: #B9C7DA; --muted: #8C9CB4; --line: #213150;
-  --navy: #CFE4F5; --on-navy: #0F1F3D; --sky: #6FAEDB; --sky-wash: #141D2E; --sky-ink: #A9D3F1;
-  --gold: #DDB76B; --gold-soft: #141D2E; --gold-bar: #C9A24E;
-  --ok: #6FD39C; --ok-soft: #123425; --wait: #F0C25A; --wait-soft: #3A2E12; --neg: #FF8A80;
-  --wa: #1FA85A; --on-wa: #FFFFFF; --bar: #5E9FD8; --bar-hot: #A9D3F1; --grid: #1C2B46;
-  --shadow: 0 18px 50px -20px rgba(0, 0, 0, .7);
-  --sky-a: #0B1220; --sky-b: #0B1220; --sky-c: #0B1220; color-scheme: dark;
+  color-scheme: light; /* identidade clean: sempre fundo branco, também no modo escuro do celular */
 }
 
 * { box-sizing: border-box; }
