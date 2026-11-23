@@ -94,6 +94,9 @@ button:disabled { cursor: not-allowed; opacity: .45; }
 .unit-tag { justify-self: start; font-size: 12px; font-weight: 600; background: var(--navy); color: var(--on-navy); border-radius: 6px; padding: 2px 8px; }
 .item-art { position: relative; width: 104px; height: 104px; border-radius: 12px; overflow: hidden; background: var(--sky-wash); display: grid; place-items: center; transition: transform .25s; }
 .item-art svg { width: 100%; height: 100%; }
+.photo-art { display: block; object-fit: cover; }
+.item-art .photo-art { width: 100%; height: 100%; }
+.p-art.photo-art { width: min(380px, 100%); aspect-ratio: 692 / 448; border-radius: 14px; }
 .ar-badge { position: absolute; right: 5px; bottom: 5px; box-shadow: none !important; border: 1px solid var(--line); display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 700; background: var(--surface); color: var(--navy); border-radius: 999px; padding: 2px 7px 2px 5px; box-shadow: 0 2px 8px rgba(19, 38, 75, .15); }
 .ar-badge svg { width: 13px; height: 13px; }
 .empty { color: var(--muted); padding: 32px 0; }

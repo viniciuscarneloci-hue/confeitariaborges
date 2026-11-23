@@ -57,6 +57,12 @@ export interface Product {
   look?: FlavorLook
   icon?: 'pote' | 'garrafa' | 'lata' | 'cafe' | 'coxinha' | 'empada' | 'vela' | 'vela-numero' | 'torta'
   model_3d?: { redondo: string; quadrado: string } // caminho do .glb (fotogrametria no produto final)
+  /** .usdz feito à mão para o iPhone (Quick Look); sem ele o model-viewer gera um a partir do .glb */
+  model_ios?: { redondo?: string; quadrado?: string }
+  /** formato que abre primeiro (ex.: o do modelo feito a partir de fotos) */
+  default_format?: CakeFormat
+  /** foto real do produto (no lugar da ilustração) */
+  photo?: string
   /** canais em que o produto aparece */
   channels: ('encomenda' | 'pronta')[]
   lead_time_hours?: number // antecedência mínima da encomenda
