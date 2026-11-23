@@ -83,5 +83,6 @@ export function ItemIcon({ icon, className }: { icon: NonNullable<Product['icon'
 }
 
 export function ProductArt({ p, className }: { p: Product; className?: string }) {
+  if (p.photo) return <img src={p.photo} alt="" className={`photo-art ${className ?? ''}`} />
   return p.look ? <CakeArt look={p.look} className={className} /> : <ItemIcon icon={p.icon!} className={className} />
 }

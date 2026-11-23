@@ -1,4 +1,5 @@
 import type { Category, Product, FlavorLook } from './types'
+import fotoGanacheLimao from '../ui/foto-ganache-limao.jpg'
 
 export const CATEGORIES: Category[] = [
   { id: 'bolos-brancos', name: 'Bolos brancos', sort: 1 },
@@ -28,7 +29,14 @@ function unit(id: string, category: Product['category_id'], name: string, price:
 
 /** Os 16 bolos e preços abaixo são os do cardápio atual da loja. Demais itens são exemplos para o piloto. */
 export const PRODUCTS: Product[] = [
-  cake('ganache-limao', 'bolos-brancos', 'Ganache de Limão', 109, 'Massa branca com ganache de limão siciliano e mousse branco.', { massa: BRANCA, recheio: '#E9EE9A', cobertura: CHANT, topping: 'limao' }),
+  {
+    // modelo 3D feito a partir das fotos do produto (tools/make_ganache_limao.py); quadrado segue o genérico
+    ...cake('ganache-limao', 'bolos-brancos', 'Ganache de Limão', 109, 'Massa branca com ganache de limão siciliano e mousse branco.', { massa: BRANCA, recheio: '#E9EE9A', cobertura: CHANT, topping: 'limao' }),
+    model_3d: { redondo: 'models/ganache-limao.glb', quadrado: MODELS.quadrado },
+    model_ios: { redondo: 'models/ganache-limao.usdz' },
+    default_format: 'redondo',
+    photo: fotoGanacheLimao,
+  },
   cake('ninho-doce-leite', 'bolos-brancos', 'Ninho com Doce de Leite', 118, 'Creme de leite Ninho com camadas de doce de leite.', { massa: BRANCA, recheio: '#D9A35F', cobertura: CHANT, topping: 'nenhum' }, ['Mais pedido']),
   cake('pistache', 'bolos-brancos', 'Pistache', 130, 'Creme de pistache com mousse branco.', { massa: BRANCA, recheio: '#B7C77A', cobertura: CHANT, topping: 'pistache' }),
   cake('delicia-morango', 'bolos-brancos', 'Delícia de Morango', 118, 'Moça morango com mousse branco e pedaços de morango.', { massa: BRANCA, recheio: '#F2A7B0', cobertura: CHANT, topping: 'morango' }),

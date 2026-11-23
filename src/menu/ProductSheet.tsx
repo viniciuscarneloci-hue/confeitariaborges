@@ -13,7 +13,7 @@ export function ProductSheet({ product: p, ready, readyAll, tab, onClose, onAdde
 }) {
   const units = readyAll.filter((r) => r.product_id === p.id && r.status === 'disponivel')
   const [mode, setMode] = useState<'encomenda' | 'agora'>(ready ? 'agora' : 'encomenda')
-  const [format, setFormat] = useState<CakeFormat>(ready?.format ?? 'quadrado')
+  const [format, setFormat] = useState<CakeFormat>(ready?.format ?? p.default_format ?? 'quadrado')
   const [weight, setWeight] = useState(1)
   const [pick, setPick] = useState<string | undefined>(ready?.id ?? units[0]?.id)
   const [qty, setQty] = useState(1)

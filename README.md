@@ -12,3 +12,9 @@ Os modelos 3D ficam em `public/models/*.glb` (gerados por `npm run models`). Par
 - `src/data/types.ts`: modelo de dados espelhando o Supabase. `supabase-schema.sql`: tabelas + RLS.
 - `src/data/mock.ts`: dados simulados e a conciliação pedido x pagamento (`reconcile`).
 - 16 bolos e preços são reais; demais produtos, 7 das 12 lojas e o WhatsApp são exemplos.
+
+## Ganache de Limão: modelo feito a partir das fotos
+`tools/make_ganache_limao.py` gera `public/models/ganache-limao.glb` (Android/web) e `ganache-limao.usdz` (iPhone, Quick Look)
+a partir de `tools/fotos/ganache-limao.jpg`: a vista de cima vira a textura do topo, a lateral vira a textura da massa, e
+suspiros, bolinhas, rodelas de limão e lascas de chocolate viram volume. Precisa de `pip install numpy pillow usd-core`.
+Links diretos depois do deploy: `/models/ganache-limao.usdz` abre a RA no iPhone; o cardápio abre a RA no Android pelo botão "Ver na mesa".

@@ -41,6 +41,8 @@ export function ARViewer({ product: p, format, weightKg, onClose }: { product: P
   }, [])
   const s = cakeScale(weightKg)
   const src = import.meta.env.VITE_EMBED_MODELS === '1' ? urls[p.model_3d![format]] : p.model_3d![format]
+  // .usdz próprio só no tamanho em que foi modelado (1 kg); nos outros pesos o model-viewer gera um já na escala
+  const iosSrc = import.meta.env.VITE_EMBED_MODELS !== '1' && weightKg === 1 ? p.model_ios?.[format] : undefined
   const size = format === 'redondo' ? `${Math.round(20 * s)} cm de diâmetro` : `${Math.round(18 * s)} × ${Math.round(14 * s)} cm`
 
   useEffect(() => {
@@ -70,7 +72,7 @@ export function ARViewer({ product: p, format, weightKg, onClose }: { product: P
         <div><strong>{p.name}</strong><small>{format === 'redondo' ? 'Redondo' : 'Quadrado'} · {kg(Math.round(weightKg * 100) / 100)} · {size}</small></div>
       </div>
       {lib && (
-        <model-viewer ref={ref} src={src} alt={`Bolo ${p.name} em 3D`} camera-controls touch-action="pan-y" auto-rotate auto-rotate-delay="800"
+        <model-viewer ref={ref} src={src} ios-src={iosSrc} alt={`Bolo ${p.name} em 3D`} camera-controls touch-action="pan-y" auto-rotate auto-rotate-delay="800"
           shadow-intensity="1.1" shadow-softness="0.8" exposure="1.05" environment-image="neutral" camera-orbit="50deg 64deg auto"
           scale={`${s} 1 ${s}`} ar ar-modes={AR_MODES} ar-scale="fixed" ar-placement="floor" xr-environment interaction-prompt="none" loading="eager" class="mv">
           <button slot="ar-button" className="btn primary ar-go"><Icon name="cube" /> Colocar na minha mesa</button>
