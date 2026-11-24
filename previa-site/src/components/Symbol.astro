@@ -1,0 +1,10 @@
+---
+import { SYMBOL } from '../scripts/symbol';
+interface Props { size?: number; core?: string; class?: string; label?: string }
+const { size = 32, core = 'var(--latao)', class: cls, label } = Astro.props;
+---
+<svg class={cls} width={size} height={size} viewBox="0 0 64 64" role={label ? 'img' : undefined}
+  aria-label={label} aria-hidden={label ? undefined : 'true'}>
+  <path d={SYMBOL.outer + SYMBOL.inner} fill="currentColor" fill-rule="evenodd" />
+  <path d={SYMBOL.core} fill={core} />
+</svg>

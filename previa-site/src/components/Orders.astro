@@ -1,0 +1,101 @@
+---
+---
+<section class="section orders" id="pedidos" data-orders>
+  <div class="wrap layout">
+    <div class="section-head">
+      <h2 class="t-title">O pedido sai da mesa e chega na cozinha.</h2>
+      <p class="t-sub">O cliente monta o pedido no celular, com a mesa já identificada pela plaquinha. A cozinha vê na hora e avança cada etapa até a entrega.</p>
+      <p class="fine">Ilustração. O sistema de pedidos é configurado para cada restaurante.</p>
+    </div>
+
+    <div class="demo" aria-label="Ilustração do sistema de pedidos">
+      <div class="phone">
+        <div class="ph-screen">
+          <p class="ph-head"><span>Casa Fiore</span><span class="t-data">Mesa 7</span></p>
+          <ul class="cart">
+            <li><span>1 × Pizza margherita</span><span>R$ 68</span></li>
+            <li><span>1 × Petit gâteau</span><span>R$ 32</span></li>
+            <li class="obs">Sem manjericão, por favor</li>
+          </ul>
+          <p class="total"><span>Total</span><span>R$ 100</span></p>
+          <button type="button" class="send" data-send>Enviar pedido</button>
+        </div>
+      </div>
+
+      <div class="kitchen">
+        <div class="k-col"><p>Novos</p><div class="k-list" data-new>
+          <div class="k-card"><b>Mesa 4</b><span>2 × Tagliatelle al ragù</span></div>
+        </div></div>
+        <div class="k-col"><p>Em preparo</p><div class="k-list">
+          <div class="k-card"><b>Mesa 2</b><span>1 × Poke de salmão</span><span>1 × Petit gâteau</span></div>
+        </div></div>
+        <div class="k-col"><p>Prontos</p><div class="k-list">
+          <div class="k-card done"><b>Mesa 11</b><span>3 itens</span></div>
+        </div></div>
+      </div>
+      <p class="sr-only" aria-live="polite" data-live></p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .orders { background: var(--tinta); color: var(--porcelana); }
+  .orders .t-sub { color: rgba(244, 245, 242, .72); }
+  .fine { font-size: 14px; color: var(--salvia); }
+  .layout { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
+  .layout .section-head { margin-bottom: 0; }
+
+  .demo { display: grid; grid-template-columns: minmax(200px, 260px) minmax(0, 1fr); gap: 24px; align-items: center; }
+  .phone { background: #070A08; border-radius: 36px; padding: 10px; box-shadow: 0 0 0 1px rgba(244, 245, 242, .1); }
+  .ph-screen { background: #FBF7F1; color: #3B1414; border-radius: 28px; padding: 26px 18px 18px; display: grid; gap: 16px; min-height: 420px; align-content: start; font-size: 14px; }
+  .ph-head { display: flex; justify-content: space-between; align-items: baseline; }
+  .ph-head span:first-child { font-family: "Instrument Serif", Georgia, serif; font-style: italic; font-size: 24px; }
+  .cart { list-style: none; margin: 0; padding: 0; border-top: 1px solid #E9DDD0; }
+  .cart li { display: flex; justify-content: space-between; gap: 8px; padding: 10px 0; border-bottom: 1px solid #E9DDD0; }
+  .cart .obs { color: #8A6E5F; font-size: 13px; }
+  .total { display: flex; justify-content: space-between; font-weight: 500; margin-top: auto; }
+  .send { margin-top: 8px; min-height: 46px; border: 0; border-radius: 999px; background: #5A1A1A; color: #FBF7F1; font-weight: 500; cursor: pointer; transition: background-color .25s; }
+  .send.is-sent { background: #2F5B45; }
+
+  .kitchen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; background: #1D2520; border-radius: 22px; padding: 18px; min-height: 360px; }
+  .k-col > p { font-size: 13px; color: rgba(244, 245, 242, .55); margin-bottom: 12px; }
+  .k-list { display: grid; gap: 10px; }
+  .k-card { display: grid; gap: 2px; background: #27312B; border-radius: 12px; padding: 12px 14px; font-size: 14px; }
+  .k-card b { font-weight: 500; }
+  .k-card span { color: rgba(244, 245, 242, .7); }
+  .k-card.done { box-shadow: inset 3px 0 0 var(--halo); }
+  .k-card.is-new { animation: land .56s var(--ease) both; box-shadow: inset 3px 0 0 var(--latao); }
+  @keyframes land { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: none; } }
+
+  @media (max-width: 1060px) { .layout { grid-template-columns: 1fr; } }
+  @media (max-width: 680px) {
+    .demo { grid-template-columns: 1fr; }
+    .phone { max-width: 300px; justify-self: center; width: 100%; }
+    .ph-screen { min-height: 0; }
+    .kitchen { grid-template-columns: 1fr; min-height: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { .k-card.is-new { animation: none; } }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-orders]')!;
+  const send = root.querySelector<HTMLButtonElement>('[data-send]')!;
+  const list = root.querySelector<HTMLElement>('[data-new]')!;
+  const live = root.querySelector<HTMLElement>('[data-live]')!;
+  let sent = false;
+  send.addEventListener('click', () => {
+    if (!sent) {
+      const c = document.createElement('div');
+      c.className = 'k-card is-new';
+      c.innerHTML = '<b>Mesa 7</b><span>1 × Pizza margherita</span><span>1 × Petit gâteau</span><span>Sem manjericão</span>';
+      list.prepend(c);
+      send.textContent = 'Pedido enviado'; send.classList.add('is-sent');
+      live.textContent = 'Pedido da mesa 7 chegou na coluna Novos da cozinha.';
+    } else {
+      list.querySelector('.is-new')?.remove();
+      send.textContent = 'Enviar pedido'; send.classList.remove('is-sent');
+      live.textContent = '';
+    }
+    sent = !sent;
+  });
+</script>

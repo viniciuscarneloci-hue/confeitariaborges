@@ -1,0 +1,37 @@
+---
+import Symbol from './Symbol.astro';
+import Wordmark from './Wordmark.astro';
+---
+<header class="site-header" data-header>
+  <div class="wrap bar">
+    <a class="brand" href="#topo" aria-label="previa, início">
+      <Symbol size={30} />
+      <Wordmark />
+    </a>
+    <nav aria-label="Seções">
+      <a href="#demo">Demonstração</a>
+      <a href="#entrega">O que entregamos</a>
+      <a href="#como">Como começa</a>
+    </nav>
+    <a class="btn btn-primary cta" href="#contato">Falar com a Previa</a>
+  </div>
+</header>
+
+<style>
+  .site-header { position: fixed; inset: 0 0 auto; z-index: 50; transition: background-color .3s var(--ease), box-shadow .3s var(--ease); }
+  .site-header.is-solid { background: rgba(244, 245, 242, .86); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); box-shadow: 0 1px 0 var(--fio); }
+  .bar { display: flex; align-items: center; gap: 32px; height: 72px; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-size: 27px; color: var(--tinta); }
+  nav { display: flex; gap: 28px; margin-left: auto; font-size: 15px; }
+  nav a { text-decoration: none; color: var(--pedra); transition: color .2s; }
+  nav a:hover { color: var(--tinta); }
+  .cta { min-height: 42px; font-size: 14.5px; }
+  @media (max-width: 860px) { nav { display: none; } .cta { margin-left: auto; } .bar { height: 64px; } .brand { font-size: 24px; } }
+  @media (max-width: 380px) { .cta { padding: 0 1em; } }
+</style>
+
+<script>
+  const h = document.querySelector<HTMLElement>('[data-header]')!;
+  const set = () => h.classList.toggle('is-solid', scrollY > 24);
+  set(); addEventListener('scroll', set, { passive: true });
+</script>

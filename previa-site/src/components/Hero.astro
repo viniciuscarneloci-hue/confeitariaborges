@@ -1,0 +1,205 @@
+---
+import { SYMBOL } from '../scripts/symbol';
+
+/* Ingredientes que caem sobre a massa: posição final (% da massa), giro, tamanho (% da massa) e ordem. */
+const toppings = [
+  { src: 'mussarela', x: 34, y: 36, r: -12, s: 26 },
+  { src: 'mussarela', x: 64, y: 58, r: 28, s: 24 },
+  { src: 'mussarela', x: 40, y: 68, r: 160, s: 22 },
+  { src: 'tomate-0', x: 62, y: 30, r: 0, s: 13 },
+  { src: 'tomate-3', x: 26, y: 54, r: 40, s: 12 },
+  { src: 'tomate-4', x: 52, y: 47, r: -30, s: 12 },
+  { src: 'tomate-1', x: 72, y: 44, r: 80, s: 10 },
+  { src: 'tomate-5', x: 58, y: 74, r: 10, s: 10 },
+  { src: 'tomate-2', x: 32, y: 22, r: -60, s: 10 },
+  { src: 'manjericao-0', x: 46, y: 28, r: 20, s: 15 },
+  { src: 'manjericao-1', x: 70, y: 64, r: -40, s: 12 },
+  { src: 'manjericao-2', x: 24, y: 40, r: 70, s: 11 },
+  { src: 'manjericao-3', x: 50, y: 60, r: -10, s: 12 },
+  { src: 'manjericao-4', x: 78, y: 54, r: 120, s: 9 },
+  { src: 'manjericao-5', x: 38, y: 50, r: 200, s: 10 },
+];
+---
+<section class="hero" id="topo" data-hero aria-label="Previa">
+  <div class="stage">
+    <picture class="table" aria-hidden="true">
+      <source media="(max-width: 860px)" srcset="img/mesa-retrato.webp" />
+      <img src="img/mesa.webp" alt="" width="1308" height="736" fetchpriority="high" />
+    </picture>
+    <div class="light" aria-hidden="true"></div>
+
+    <div class="wrap grid">
+      <div class="scene" aria-hidden="true">
+        <div class="shadow" data-shadow></div>
+        <div class="halo" data-halo></div>
+        <div class="plate" data-plate>
+          <img class="base" data-base src="img/base-molho.webp" alt="" width="714" height="706" />
+          {toppings.map((t, i) => (
+            <img class="top" data-top={i} src={`img/${t.src}.webp`} alt="" loading="eager"
+              style={`--x:${t.x}%;--y:${t.y}%;--r:${t.r}deg;--s:${t.s}%`} />
+          ))}
+          <img class="baked" data-baked src="img/pizza-pronta.webp" alt="" width="939" height="930" />
+        </div>
+        <svg class="rings" viewBox="0 0 64 64" data-rings>
+          <path data-outer d={SYMBOL.outer} fill="var(--tinta)" fill-rule="evenodd" />
+          <path data-inner d={SYMBOL.inner} fill="var(--tinta)" fill-rule="evenodd" />
+          <path data-core d={SYMBOL.core} fill="var(--latao)" fill-rule="evenodd" />
+        </svg>
+      </div>
+
+      <div class="copy">
+        <div class="copy-a" data-copy-a>
+          <h1 class="t-display">Veja antes<br />de pedir.</h1>
+          <p class="t-sub">Cardápio em realidade aumentada, site e pedidos para restaurantes. A sua marca na frente, a Previa nos bastidores.</p>
+          <p class="hint" aria-hidden="true"><span></span>Role para montar o prato</p>
+        </div>
+        <div class="copy-b" data-copy-b>
+          <h2 class="t-title">O prato aparece na mesa do cliente, em tamanho real.</h2>
+          <p class="t-sub">Ele aponta o celular, vê a porção e a montagem do chef e pede sabendo o que vai chegar.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#demo"><span class="dot"></span>Ver um prato na minha mesa</a>
+            <a class="btn btn-ghost" href="#contato">Falar com a Previa</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { position: relative; height: 420svh; }
+  .stage { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; align-items: center; background: #EEEFEC; }
+  .table, .table img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .table img { transform: scale(1.04); }
+  /* Luz de janela vinda da esquerda e véu de Porcelana atrás do texto */
+  .light { position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(244, 245, 242, .82) 0%, rgba(244, 245, 242, .45) 34%, rgba(244, 245, 242, 0) 58%),
+      radial-gradient(120% 90% at 85% 10%, rgba(255, 255, 255, .35), transparent 60%),
+      linear-gradient(180deg, transparent 70%, rgba(20, 26, 22, .06)); }
+
+  .grid { position: relative; display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); align-items: center; gap: clamp(24px, 4vw, 64px); padding-top: 72px; }
+  .copy { grid-column: 1; grid-row: 1; display: grid; }
+  .copy-a, .copy-b { grid-area: 1 / 1; display: grid; gap: 24px; align-content: center; will-change: opacity, transform; }
+  .copy-b { opacity: 0; visibility: hidden; }
+  .copy-a .t-display { margin-left: -.05em; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+  .hint { display: flex; align-items: center; gap: 12px; margin-top: 28px; font-size: 14px; color: var(--pedra); }
+  .hint span { width: 36px; height: 1px; background: currentColor; }
+
+  .scene { grid-column: 2; grid-row: 1; position: relative; aspect-ratio: 1; width: min(100%, 78svh); justify-self: center; perspective: 1600px; }
+  .rings { position: absolute; inset: 6%; width: 88%; height: 88%; will-change: transform, opacity; opacity: .92; }
+  .plate { position: absolute; inset: 9%; transform-style: preserve-3d; transform-origin: 50% 62%; will-change: transform; }
+  .plate img { position: absolute; display: block; user-select: none; -webkit-user-drag: none; }
+  .base, .baked { inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; }
+  .baked { inset: -3%; width: 106%; height: 106%; }
+  .top { left: var(--x); top: var(--y); width: var(--s); height: auto; opacity: 0;
+    translate: -50% -50%; rotate: var(--r); filter: drop-shadow(0 6px 6px rgba(20, 26, 22, .28)); will-change: transform, opacity; }
+  .shadow { position: absolute; left: 50%; top: 52%; width: 84%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; opacity: 0;
+    background: radial-gradient(closest-side, rgba(20, 26, 22, .34), rgba(20, 26, 22, .12) 70%, transparent); filter: blur(14px); }
+  .halo { position: absolute; left: 50%; top: 66%; width: 98%; aspect-ratio: 3 / 1; translate: -50% -50%; border-radius: 50%;
+    border: 2px solid var(--halo); opacity: 0; scale: .3; box-shadow: 0 0 0 12px rgba(169, 227, 207, .22), 0 0 40px rgba(169, 227, 207, .5); }
+
+  @media (max-width: 860px) {
+    .light { background: linear-gradient(180deg, rgba(244, 245, 242, 0) 30%, rgba(244, 245, 242, .82) 58%); }
+    .grid { grid-template-columns: 1fr; grid-template-rows: auto auto; gap: 4px; padding-top: 64px; align-content: center; }
+    .scene { grid-column: 1; grid-row: 1; width: min(100%, 46svh); }
+    .copy { grid-row: 2; }
+    .copy-a, .copy-b { gap: 16px; }
+    .t-display { font-size: clamp(2.8rem, 13vw, 4.4rem); }
+    .hint { margin-top: 8px; }
+  }
+
+  /* Movimento reduzido: só o quadro final, sem rolagem presa */
+  .hero.is-static { height: auto; }
+  .hero.is-static .stage { position: relative; height: auto; min-height: 100svh; padding-block: 120px 64px; }
+  .hero.is-static .copy-a, .hero.is-static .copy-b { grid-area: auto; opacity: 1; visibility: visible; transform: none; }
+  .hero.is-static .copy { gap: 48px; }
+  .hero.is-static .hint, .hero.is-static .rings, .hero.is-static .base, .hero.is-static .top { display: none; }
+  .hero.is-static .baked, .hero.is-static .halo, .hero.is-static .shadow { opacity: 1; scale: 1; }
+  .hero.is-static .plate { transform: rotateX(52deg) scale(.9); }
+</style>
+
+<script>
+  import { ring } from '../scripts/symbol';
+  import { reducedMotion } from '../scripts/models';
+
+  const hero = document.querySelector<HTMLElement>('[data-hero]')!;
+  const $ = <T extends Element = HTMLElement>(s: string) => hero.querySelector<T>(s)!;
+  const rings = $<SVGElement>('[data-rings]');
+  const outer = $('[data-outer]'), inner = $('[data-inner]'), core = $('[data-core]');
+  const plate = $('[data-plate]'), base = $('[data-base]'), baked = $('[data-baked]');
+  const shadow = $('[data-shadow]'), halo = $('[data-halo]');
+  const a = $('[data-copy-a]'), b = $('[data-copy-b]');
+  const tops = [...hero.querySelectorAll<HTMLElement>('[data-top]')];
+
+  const clamp = (x: number) => Math.min(1, Math.max(0, x));
+  const seg = (p: number, s: number, e: number) => clamp((p - s) / (e - s));
+  const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+  const lerp = (x: number, y: number, t: number) => x + (y - x) * t;
+  const op = (el: Element, v: number) => ((el as HTMLElement).style.opacity = String(v));
+
+  let last = -1;
+  function frame() {
+    const r = hero.getBoundingClientRect();
+    const p = clamp(-r.top / Math.max(1, r.height - innerHeight));
+    if (p === last) return; last = p;
+
+    // 1. Prato visto de cima: os aros descem e o ponto pousa (o movimento do logo)
+    const k1 = ease(seg(p, 0.0, 0.14));
+    outer.setAttribute('d', ring(32, 27, lerp(2.6, 2.2, k1), lerp(2.6, 3.8, k1)));
+    inner.setAttribute('d', ring(lerp(32, 37, k1), 17, lerp(2, 1.7, k1), lerp(2, 3.1, k1)));
+    const t = lerp(1.6, 7, ease(seg(p, 0.06, 0.14)));
+    core.setAttribute('d', ring(lerp(32, 42, k1), 7, t, t));
+
+    // 2. Os aros dão lugar à massa com molho, que pousa na mesa
+    const kr = ease(seg(p, 0.15, 0.24));
+    op(rings, 0.92 * (1 - kr));
+    rings.style.transform = `scale(${1 + kr * 0.1})`;
+    const kb = ease(seg(p, 0.15, 0.26));
+    base.style.transform = `scale(${lerp(1.18, 1, kb)})`;
+    op(shadow, kb * 0.9);
+
+    // 3. Ingredientes caem um a um
+    const n = tops.length;
+    tops.forEach((el, i) => {
+      const s0 = 0.26 + (i / n) * 0.26;
+      const k = seg(p, s0, s0 + 0.06);
+      const e = ease(k);
+      el.style.transform = `translateY(${(1 - e) * -140}%) scale(${lerp(1.7, 1, e)})`;
+      el.style.opacity = String(Math.min(1, k * 2.2) * (1 - seg(p, 0.6, 0.66)));
+    });
+
+    // 4. Do forno: a pizza pronta toma o lugar da montagem
+    const kf = ease(seg(p, 0.56, 0.66));
+    op(base, kb * (1 - seg(p, 0.6, 0.66)));
+    op(baked, kf);
+    baked.style.transform = `rotate(${lerp(-14, 0, kf)}deg) scale(${lerp(1.04, 1, kf)})`;
+
+    // 5. A mesa ganha perspectiva e o anel Halo do RA aparece sob o prato
+    const kt = ease(seg(p, 0.68, 0.88));
+    plate.style.transform = `translateY(${kt * 4}%) rotateX(${kt * 54}deg) scale(${lerp(1, 0.9, kt)})`;
+    shadow.style.transform = `scale(${lerp(1, 1.05, kt)}, ${lerp(1, 0.42, kt)}) translateY(${kt * 34}%)`;
+    const kh = ease(seg(p, 0.78, 0.94));
+    op(halo, kh);
+    halo.style.scale = String(lerp(0.3, 1, kh));
+
+    const k4 = ease(seg(p, 0.7, 0.9));
+    op(a, 1 - seg(p, 0.62, 0.74));
+    a.style.transform = `translateY(${-k4 * 24}px)`;
+    a.style.visibility = k4 >= 1 ? 'hidden' : 'visible';
+    op(b, k4);
+    b.style.transform = `translateY(${(1 - k4) * 24}px)`;
+    b.style.visibility = k4 > 0 ? 'visible' : 'hidden';
+  }
+
+  if (reducedMotion()) {
+    hero.classList.add('is-static');
+  } else {
+    let raf = 0;
+    const tick = () => { raf = 0; frame(); };
+    addEventListener('scroll', () => { raf ||= requestAnimationFrame(tick); }, { passive: true });
+    addEventListener('resize', () => { last = -1; frame(); });
+    frame();
+  }
+</script>

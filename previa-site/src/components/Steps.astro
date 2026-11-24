@@ -1,0 +1,30 @@
+---
+const steps = [
+  ['Uma conversa', 'Vemos o seu cardápio, escolhemos os pratos que vão para o 3D e combinamos site, pedidos e plaquinhas.'],
+  ['Captura dos pratos', 'Cada prato é escaneado no próprio restaurante, como ele sai da cozinha. Leva poucos minutos por prato.'],
+  ['Montagem com a sua marca', 'Cardápio, site e pedidos ganham o logo, as cores e as fontes da casa. Você revisa antes de ir ao ar.'],
+  ['Na mesa', 'Instalamos as plaquinhas NFC e QR code. Daí em diante, o cliente vê antes de pedir.'],
+];
+---
+<section class="section steps" id="como">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="t-title">Do cardápio de papel à mesa em quatro passos.</h2>
+    </div>
+    <ol>
+      {steps.map(([t, d], i) => (
+        <li><span class="n" aria-hidden="true">{i + 1}</span><h3>{t}</h3><p>{d}</p></li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); counter-reset: s; }
+  li { display: grid; gap: 12px; align-content: start; padding-top: 22px; border-top: 1px solid var(--tinta); }
+  .n { font-family: var(--f-display); font-weight: 200; font-size: 56px; line-height: 1; letter-spacing: -.04em; color: var(--louro); margin-bottom: 12px; }
+  h3 { font-size: 22px; font-weight: 400; letter-spacing: -.02em; }
+  p { color: var(--pedra); font-size: 16px; }
+  @media (max-width: 960px) { ol { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 48px; } }
+  @media (max-width: 560px) { ol { grid-template-columns: 1fr; row-gap: 36px; } }
+</style>

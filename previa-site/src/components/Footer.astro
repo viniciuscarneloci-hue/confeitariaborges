@@ -1,0 +1,18 @@
+---
+import Symbol from './Symbol.astro';
+import Wordmark from './Wordmark.astro';
+---
+<footer class="footer">
+  <div class="wrap row">
+    <a class="brand" href="#topo" aria-label="previa, voltar ao início"><Symbol size={28} /><Wordmark /></a>
+    <p>Veja antes de pedir.</p>
+    <p class="right">Cardápio em RA, sites e pedidos para restaurantes. © 2026 Previa</p>
+  </div>
+</footer>
+<style>
+  .footer { padding-block: 40px; border-top: 1px solid var(--fio); font-size: 14px; color: var(--pedra); }
+  .row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .brand { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-size: 24px; color: var(--tinta); }
+  .right { margin-left: auto; }
+  @media (max-width: 700px) { .right { margin-left: 0; width: 100%; } }
+</style>

@@ -1,0 +1,172 @@
+---
+/* O kit na mesa: os quatro objetos que o restaurante recebe, vistos de cima. */
+const items = [
+  { id: 'cardapio', title: 'Cardápio em 3D e RA', text: 'Cada prato modelado a partir do prato real. O cliente gira, aproxima e coloca na mesa antes de pedir. Abre no navegador, sem baixar aplicativo.', points: ['Abre pela plaquinha, por QR code ou NFC', 'Em português, inglês e espanhol', 'Pratos e preços editados no painel'], link: ['#demo', 'Testar a demonstração'] },
+  { id: 'site', title: 'Site do restaurante', text: 'Um site com a cara da casa: cardápio, horários, reservas e como chegar. Leve no celular e pronto para aparecer no Google.', points: ['Logo, cores e fontes do restaurante', 'Cardápio em RA dentro do site', 'Domínio próprio'], link: ['#sites', 'Ver em três restaurantes'] },
+  { id: 'pedidos', title: 'Sistema de pedidos', text: 'O cliente escolhe na mesa e o pedido chega na cozinha na hora, com mesa, itens e observações.', points: ['Pedido pela mesa, sem fila no garçom', 'Painel da cozinha por etapas', 'Mostrado aqui como ilustração'], link: ['#pedidos', 'Ver como funciona'] },
+  { id: 'plaquinha', title: 'Plaquinhas NFC e QR code', text: 'Uma por mesa, com a identidade do restaurante. O cliente encosta o celular ou aponta a câmera e escolhe para onde ir.', points: ['Cardápio em RA', 'Instagram da casa', 'Avaliação no Google Meu Negócio'], link: ['#plaquinha', 'Ver a plaquinha'] },
+];
+---
+<section class="section kit" id="entrega" data-kit>
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="t-title">Tudo o que vai para a mesa do restaurante.</h2>
+      <p class="t-sub">Toque em cada peça para ver o que ela faz.</p>
+    </div>
+
+    <div class="board">
+      <div class="table" role="tablist" aria-label="O que entregamos">
+        <button class="obj phone" role="tab" id="t-cardapio" aria-controls="p-cardapio" aria-selected="true" data-obj="cardapio">
+          <span class="sr-only">Cardápio em 3D e RA</span>
+          <span class="screen fiore" aria-hidden="true">
+            <span class="f-name">Casa Fiore</span>
+            <span class="f-dish"><img src="img/pizza-prato.webp" alt="" width="120" height="115" /><i></i></span>
+            <span class="f-row"><b>Margherita</b><em>R$ 68</em></span>
+            <span class="f-btn">Ver na mesa</span>
+            <span class="pw">powered by previa</span>
+          </span>
+        </button>
+
+        <button class="obj laptop" role="tab" id="t-site" aria-controls="p-site" aria-selected="false" tabindex="-1" data-obj="site">
+          <span class="sr-only">Site do restaurante</span>
+          <span class="lid" aria-hidden="true">
+            <span class="screen site">
+              <span class="s-bar"><i></i><i></i><i></i></span>
+              <span class="s-hero"><span class="s-name">Casa Fiore</span><span class="s-tag">Massa fresca desde 1998</span></span>
+              <span class="s-nav"><span>Cardápio</span><span>Reservas</span><span>Como chegar</span></span>
+            </span>
+          </span>
+          <span class="base" aria-hidden="true"></span>
+        </button>
+
+        <button class="obj tablet" role="tab" id="t-pedidos" aria-controls="p-pedidos" aria-selected="false" tabindex="-1" data-obj="pedidos">
+          <span class="sr-only">Sistema de pedidos</span>
+          <span class="screen orders" aria-hidden="true">
+            <span class="o-col"><b>Novos</b><span class="o-card"><em>Mesa 4</em>2 × Margherita</span><span class="o-card"><em>Mesa 9</em>1 × Poke</span></span>
+            <span class="o-col"><b>Preparo</b><span class="o-card"><em>Mesa 2</em>1 × Petit gâteau</span></span>
+            <span class="o-col"><b>Prontos</b><span class="o-card ok"><em>Mesa 7</em>3 itens</span></span>
+          </span>
+        </button>
+
+        <button class="obj plaque" role="tab" id="t-plaquinha" aria-controls="p-plaquinha" aria-selected="false" tabindex="-1" data-obj="plaquinha">
+          <span class="sr-only">Plaquinhas NFC e QR code</span>
+          <span class="face" aria-hidden="true">
+            <span class="p-name">Casa Fiore</span>
+            <canvas data-plaque-qr width="80" height="80"></canvas>
+            <span class="p-nfc"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M7 8a6 6 0 0 1 0 8M10.5 5.5a10 10 0 0 1 0 13M14 3a14 14 0 0 1 0 18" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Aproxime ou aponte</span>
+          </span>
+        </button>
+      </div>
+
+      <div class="panels">
+        {items.map((it, i) => (
+          <div class="panel" role="tabpanel" id={`p-${it.id}`} aria-labelledby={`t-${it.id}`} hidden={i !== 0}>
+            <h3>{it.title}</h3>
+            <p>{it.text}</p>
+            <ul>{it.points.map(pt => <li>{pt}</li>)}</ul>
+            <a href={it.link[0]}>{it.link[1]}</a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .board { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: clamp(28px, 4vw, 64px); align-items: center; }
+  .table { position: relative; aspect-ratio: 16 / 11; background: var(--mesa); border-radius: 36px; overflow: hidden; }
+
+  .obj { position: absolute; padding: 0; border: 0; background: none; cursor: pointer; transition: transform .35s var(--ease), filter .35s var(--ease); }
+  .obj:hover { transform: var(--rot) translateY(-4px); }
+  .obj[aria-selected="false"] { filter: saturate(.55) opacity(.78); }
+  .obj[aria-selected="true"] { filter: none; z-index: 2; }
+  .obj:focus-visible { outline-offset: 8px; border-radius: 20px; }
+  .screen { display: block; overflow: hidden; background: #fff; text-align: left; }
+
+  /* Celular */
+  .phone { --rot: rotate(-7deg); transform: var(--rot); left: 5%; top: 8%; width: 21%; aspect-ratio: 9 / 19; background: var(--tinta); border-radius: 13% / 6.5%; padding: 3.5%;
+    box-shadow: 0 30px 40px -24px rgba(20, 26, 22, .55); }
+  .fiore { height: 100%; border-radius: 10% / 5%; background: #FBF7F1; color: #5A1A1A; display: grid; grid-template-rows: auto 1fr auto auto auto; justify-items: center; padding: 14% 9% 8%; gap: 4%; font-size: clamp(7px, .9vw, 11px); }
+  .f-name { font-family: "Instrument Serif", Georgia, serif; font-style: italic; font-size: 1.9em; }
+  .f-dish { position: relative; display: grid; place-items: center; width: 100%; }
+  .f-dish img { width: 92%; position: relative; z-index: 1; }
+  .f-dish i { position: absolute; bottom: 14%; width: 90%; aspect-ratio: 3/1; border-radius: 50%; border: 1.5px solid var(--halo); }
+  .f-row { width: 100%; display: flex; justify-content: space-between; gap: 6px; border-top: 1px solid #E9DDD0; padding-top: 6%; }
+  .f-row b { font-weight: 500; } .f-row em { font-style: normal; }
+  .f-btn { width: 100%; text-align: center; background: #5A1A1A; color: #FBF7F1; border-radius: 99px; padding: 4% 0; }
+  .pw { font-size: .8em; color: #8A7F76; }
+
+  /* Notebook aberto, visto de cima */
+  .laptop { --rot: rotate(4deg); transform: var(--rot); right: 5%; top: 5%; width: 44%; }
+  .lid { display: block; background: #C9CDC8; border-radius: 14px 14px 4px 4px; padding: 2.4%; }
+  .site { aspect-ratio: 16 / 10; border-radius: 6px; background: #FBF7F1; color: #5A1A1A; display: grid; grid-template-rows: auto 1fr auto; font-size: clamp(7px, .9vw, 12px); }
+  .s-bar { display: flex; gap: 4px; padding: 2.2% 3%; background: #EFE6DA; }
+  .s-bar i { width: 6px; height: 6px; border-radius: 50%; background: #D3C4B3; }
+  .s-hero { display: grid; align-content: center; padding: 0 7%; gap: 4px; background: linear-gradient(90deg, #FBF7F1 45%, transparent), url(/img/pizza-prato.webp) right 6% center / 38% no-repeat; }
+  .s-name { font-family: "Instrument Serif", Georgia, serif; font-style: italic; font-size: 3em; line-height: 1; }
+  .s-tag { color: #8A6E5F; }
+  .s-nav { display: flex; gap: 7%; padding: 3% 7%; border-top: 1px solid #E9DDD0; }
+  .base { display: block; height: 0; padding-bottom: 22%; margin-top: 1px; background: linear-gradient(#B6BBB5, #B6BBB5) center 70% / 34% 18% no-repeat, repeating-linear-gradient(90deg, #BFC4BE 0 7%, #C9CDC8 7% 7.6%) center 22% / 86% 40% no-repeat, #C9CDC8; border-radius: 4px 4px 16px 16px; }
+
+  /* Tablet */
+  .tablet { --rot: rotate(-3deg); transform: var(--rot); left: 30%; bottom: 6%; width: 34%; aspect-ratio: 4 / 3; background: var(--tinta); border-radius: 18px; padding: 2.4%;
+    box-shadow: 0 30px 40px -26px rgba(20, 26, 22, .55); }
+  .orders { height: 100%; border-radius: 10px; background: #1D2520; color: var(--porcelana); display: grid; grid-template-columns: repeat(3, 1fr); gap: 4%; padding: 6% 5%; font-size: clamp(6px, .8vw, 11px); }
+  .o-col { display: grid; align-content: start; gap: 8%; }
+  .o-col b { font-weight: 500; opacity: .6; }
+  .o-card { display: grid; background: #27312B; border-radius: 6px; padding: 10% 9%; gap: 2px; }
+  .o-card em { font-style: normal; font-weight: 500; }
+  .o-card.ok { box-shadow: inset 2px 0 0 var(--halo); }
+
+  /* Plaquinha */
+  .plaque { --rot: rotate(9deg); transform: var(--rot); right: 7%; bottom: 7%; width: 15%; }
+  .face { display: grid; justify-items: center; gap: 8%; aspect-ratio: 3 / 4; padding: 14% 10%; background: #FBF7F1; color: #5A1A1A; border-radius: 10px;
+    box-shadow: 0 2px 0 #E4DCD0, 0 24px 30px -20px rgba(20, 26, 22, .5); font-size: clamp(6px, .75vw, 10px); }
+  .p-name { font-family: "Instrument Serif", Georgia, serif; font-style: italic; font-size: 2em; }
+  .face canvas { width: 70% !important; height: auto !important; aspect-ratio: 1; }
+  .p-nfc { display: flex; align-items: center; gap: 4px; }
+
+  .panels { min-height: 300px; }
+  .panel { display: grid; gap: 16px; align-content: start; }
+  .panel h3 { font-size: 30px; }
+  .panel p { color: var(--pedra); }
+  .panel ul { list-style: none; margin: 4px 0 0; padding: 0; border-top: 1px solid var(--fio); }
+  .panel li { padding: 11px 0; border-bottom: 1px solid var(--fio); }
+  .panel a { margin-top: 8px; color: var(--louro); font-weight: 500; text-underline-offset: 4px; }
+
+  @media (max-width: 960px) {
+    .board { grid-template-columns: 1fr; }
+    .table { aspect-ratio: auto; border-radius: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px 20px; padding: 28px 20px; align-items: center; justify-items: center; }
+    .obj { position: relative; inset: auto; }
+    .laptop { grid-column: 1 / -1; width: 92%; }
+    .phone { width: 62%; }
+    .tablet { grid-column: 1 / -1; width: 80%; grid-row: 3; }
+    .plaque { width: 58%; }
+    .panels { min-height: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { .obj, .obj:hover { transition: none; transform: var(--rot); } }
+</style>
+
+<script>
+  import QR from 'qrcode';
+  const root = document.querySelector<HTMLElement>('[data-kit]')!;
+  const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-obj]')];
+  const select = (t: HTMLButtonElement, focus = false) => {
+    tabs.forEach(x => {
+      const on = x === t;
+      x.setAttribute('aria-selected', String(on));
+      x.tabIndex = on ? 0 : -1;
+      root.querySelector<HTMLElement>(`#p-${x.dataset.obj}`)!.hidden = !on;
+    });
+    if (focus) t.focus();
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(t));
+    t.addEventListener('keydown', e => {
+      const n = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
+      if (n) { e.preventDefault(); select(tabs[(i + n + tabs.length) % tabs.length], true); }
+    });
+  });
+  const url = new URL(location.href); url.hash = 'demo'; url.search = '';
+  QR.toCanvas(root.querySelector<HTMLCanvasElement>('[data-plaque-qr]')!, url.toString(), { width: 160, margin: 0, color: { dark: '#5A1A1A', light: '#FBF7F1' } });
+</script>
