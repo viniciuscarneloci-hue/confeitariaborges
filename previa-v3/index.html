@@ -84,9 +84,22 @@ html[data-page-ready] main { visibility: visible; }
 /* 5.4 Topo */
 .hero { position: relative; height: 100vh; height: 100svh; min-height: 34rem; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 .hero video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 50%; }
-.hero .veil { position: absolute; inset: 0; background: radial-gradient(70% 60% at 50% 46%, rgba(244,245,242,.86) 30%, rgba(244,245,242,.35) 75%, rgba(244,245,242,.15)); pointer-events: none; }
-.hero-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 2rem; margin-top: -3rem; text-align: center; }
-.cta { display: inline-flex; align-items: center; gap: .45em; font-weight: 300; font-size: 2.1rem; letter-spacing: -.035em; line-height: 1; }
+.hero .veil { position: absolute; inset: 0; background: radial-gradient(62% 58% at 50% 48%, rgba(244,245,242,.9) 28%, rgba(244,245,242,.45) 62%, rgba(244,245,242,.05) 100%); pointer-events: none; }
+.hero-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 1.9rem; margin-top: -2rem; text-align: center; }
+.cta { display: inline-flex; align-items: center; gap: .45em; font-weight: 300; font-size: 1.5rem; letter-spacing: -.03em; line-height: 1; min-height: 44px; }
+.cta .arrow { rotate: -90deg; }
+.actions { display: flex; align-items: center; gap: 2.25rem; margin-top: .5rem; }
+.btn-p { display: inline-flex; align-items: center; gap: .7rem; height: 3.6rem; padding: 0 1.7rem; border-radius: 99rem; background: var(--louro); color: var(--porcelana); font-family: "Geist"; font-weight: 600; font-size: 1.1rem; letter-spacing: -.01em; box-shadow: 0 1.2rem 2.4rem -1.4rem rgba(34,64,47,.8); transition: background-color .3s var(--ease), transform .4s var(--ease); }
+.btn-p:hover { background: #2C5240; transform: translateY(-2px); }
+.hd { width: .55rem; height: .55rem; border-radius: 50%; background: var(--halo); box-shadow: 0 0 0 .3rem rgba(169,227,207,.28); flex: none; }
+.kicker { display: inline-flex; align-items: center; gap: .6rem; padding: .55rem 1rem; border-radius: 99rem; background: rgba(255,255,255,.7); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: inset 0 0 0 1px rgba(20,26,22,.07); font-family: "Geist"; font-weight: 500; font-size: .95rem; letter-spacing: .01em; color: var(--louro); opacity: 0; }
+.kicker .hd { box-shadow: 0 0 0 .25rem rgba(169,227,207,.45); animation: pulse 2.4s var(--ease) infinite; }
+@keyframes pulse { 50% { box-shadow: 0 0 0 .5rem rgba(169,227,207,0); } }
+@keyframes up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+html[data-page-ready] .kicker { animation: up 1s var(--ease) .9s both; }
+html[data-page-ready] .btn-p { animation: up 1s var(--ease) 1.5s both; }
+.hero .fade { position: absolute; left: 0; right: 0; bottom: 0; height: 22%; background: linear-gradient(rgba(244,245,242,0), var(--porcelana)); pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { html[data-page-ready] .kicker, html[data-page-ready] .btn-p { animation: none; opacity: 1; } .kicker .hd { animation: none; } }
 .cta .txt { position: relative; }
 .cta .draw-box { top: 112%; height: .6em; }
 .arrow { width: 1em; height: 1em; background: var(--louro); color: var(--branco); display: grid; place-items: center; overflow: hidden; border-radius: .15em; }
@@ -95,11 +108,13 @@ html[data-page-ready] main { visibility: visible; }
 .arrow .twin svg + svg { top: -100%; }
 .cta:hover .arrow .twin { transform: translateY(100%); }
 
-.marquee { position: absolute; left: 0; bottom: 1.5rem; width: 100%; z-index: 2; overflow: hidden; }
+.marquee { position: absolute; left: 0; bottom: 1.75rem; width: 100%; z-index: 2; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, #0000, #000 12%, #000 88%, #0000); mask-image: linear-gradient(90deg, #0000, #000 12%, #000 88%, #0000); }
 .marquee .scroll { display: flex; margin-left: -10%; width: 120%; }
 .marquee .coll { display: flex; flex: none; }
-.mk { width: 9rem; height: 7rem; margin: 0 2.5rem; display: grid; place-items: center; color: var(--louro); }
-.mk svg { width: 60%; height: 60%; overflow: visible; }
+.mk { display: flex; align-items: center; gap: .7rem; margin: 0 1.6rem; padding: .9rem 0; color: var(--louro); white-space: nowrap; font-family: "Geist"; font-weight: 500; font-size: 1.05rem; letter-spacing: -.01em; }
+.mk span { color: var(--tinta); opacity: .78; }
+.mk::after { content: ""; width: .3rem; height: .3rem; border-radius: 50%; background: var(--latao); margin-left: 2.5rem; opacity: .7; }
+.mk svg { width: 1.6rem; height: 1.6rem; overflow: visible; }
 .mk path, .mk circle, .mk rect, .mk ellipse, .mk line { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: butt; stroke-linejoin: miter; }
 .mk .fill { fill: currentColor; stroke: none; }
 .mk .acc { fill: var(--latao); stroke: none; }
@@ -108,9 +123,14 @@ html[data-page-ready] main { visibility: visible; }
   .hero video { object-position: left top; }
   .hero .veil { background: linear-gradient(180deg, rgba(244,245,242,.55) 0%, rgba(244,245,242,0) 18%), radial-gradient(120% 55% at 50% 50%, rgba(244,245,242,.9) 35%, rgba(244,245,242,.4) 80%, rgba(244,245,242,.2)); }
   .hero-content { gap: 1.75rem; margin-top: 0; padding: 0 1rem; }
-  .cta { font-size: 1.5rem; min-height: 44px; }
+  .actions { flex-direction: column; gap: 1rem; }
+  .btn-p { height: 52px; font-size: 16px; padding: 0 1.5rem; }
+  .cta { font-size: 1.2rem; }
+  .kicker { font-size: 13px; }
   .marquee { bottom: calc(1rem + env(safe-area-inset-bottom)); }
-  .mk { width: 4.5rem; height: 4rem; margin: 0 .9rem; }
+  .mk { font-size: 14px; gap: .5rem; margin: 0 .9rem; }
+  .mk svg { width: 1.35rem; height: 1.35rem; }
+  .mk::after { margin-left: 1.8rem; }
 }
 
 /* Barra fixa no celular: o contato sempre a um toque */
@@ -126,7 +146,124 @@ html[data-page-ready] main { visibility: visible; }
   .mbar .go .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--halo); }
 }
 
-.next { min-height: 60vh; display: grid; place-items: center; color: var(--pedra); font-family: "Geist"; font-size: 1.1rem; padding: 4rem 1.5rem; text-align: center; }
+/* Títulos de seção */
+.h-sec { font-weight: 700; font-size: 4.8rem; line-height: .9em; letter-spacing: -.055em; }
+.h-team { font-weight: 700; font-size: 7rem; line-height: .9em; letter-spacing: -.055em; }
+.eyebrow-s { font-weight: 300; font-size: 1.75rem; line-height: 1.12em; letter-spacing: -.03em; }
+@media (max-width: 991px) { .h-sec { font-size: 5rem; } .h-team { font-size: 6rem; } }
+@media (max-width: 600px) { .h-sec { font-size: 3.4rem; } .h-team { font-size: 3.9rem; } .eyebrow-s { font-size: 1.3rem; } }
+
+/* 5.5 Do cardápio ao pedido: pilha de cards */
+.stack .pin { height: 100vh; display: grid; grid-template-columns: 38fr 62fr; gap: 2rem; padding: 0 3rem 0 5rem; align-items: center; overflow: hidden; }
+.stack .col { display: flex; flex-direction: column; gap: 1.5rem; justify-content: center; }
+.stack .col .eyebrow-s { max-width: 24rem; color: var(--pedra); }
+.stage { position: relative; height: 100%; perspective: 1400px; }
+.stack-root { position: absolute; inset: 0; transform-style: preserve-3d; }
+.slide { position: absolute; aspect-ratio: 1.75; width: min(80vh, 52vw); left: 50%; top: calc(50% - 5vh); translate: -50% -50%; display: block; padding: 1.4cqw; background: var(--frame); border-radius: 1.2rem; container-type: inline-size; overflow: hidden; }
+.slide { padding: 1.75vh; }
+.slide .crop { position: absolute; inset: 1.75vh; overflow: hidden; border-radius: .7rem; background: var(--mesa); }
+.slide .crop img { width: 100%; height: 100%; object-fit: cover; }
+.slide .shade { position: absolute; inset: 1.75vh; border-radius: .7rem; background: linear-gradient(#0000 50%, rgba(20,26,22,.55)); pointer-events: none; }
+.slide .title { position: absolute; left: 0; right: 0; bottom: 6cqw; text-align: center; font-weight: 700; font-size: 8.4cqw; line-height: .85; letter-spacing: -.05em; color: var(--porcelana); text-shadow: 0 .05em .3em rgba(0,0,0,.25); }
+.slide .num { position: absolute; left: 5cqw; bottom: 6.6cqw; font-family: "Geist"; font-weight: 500; font-size: 1.9cqw; letter-spacing: .04em; color: var(--porcelana); opacity: .85; }
+/* Mockups desenhados no próprio card (medidas em cqw, valem em qualquer tela) */
+.ui { position: absolute; font-family: "Geist"; color: var(--tinta); font-size: 1.9cqw; line-height: 1.25; }
+.glass { background: rgba(255,255,255,.9); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-radius: 1.6cqw; box-shadow: 0 1.4cqw 3.6cqw -1.6cqw rgba(20,26,22,.45); }
+.chip { display: inline-flex; align-items: center; gap: .6em; padding: .65em 1em; border-radius: 99em; font-weight: 600; }
+.chip .hd { width: .7em; height: .7em; border-radius: 50%; background: var(--halo); box-shadow: 0 0 0 .3em rgba(169,227,207,.35); }
+.ui-ra { inset: 0; pointer-events: none; }
+.ui-ra .ring { position: absolute; left: 50%; top: 52%; width: 62cqw; translate: -50% -50%; overflow: visible; }
+.ui-ra .ring ellipse { fill: none; stroke: var(--halo); stroke-width: 2.4; }
+.ui-ra .ring .r2 { stroke-width: 1.2; opacity: .6; stroke-dasharray: 4 6; }
+.ui-ra .chip { position: absolute; left: 5cqw; top: 5cqw; }
+.ui-ra .size { position: absolute; right: 5cqw; top: 5cqw; font-family: "Geist"; font-weight: 500; font-size: 1.7cqw; padding: .5em .8em; border-radius: 99em; background: var(--tinta); color: var(--halo); }
+.ticket { right: 4.5cqw; top: 4.5cqw; width: 30cqw; padding: 2.2cqw; display: grid; gap: 1.1cqw; }
+.ticket .t-h { display: flex; justify-content: space-between; font-family: "Geist"; font-weight: 500; font-size: 1.5cqw; color: var(--pedra); letter-spacing: .03em; }
+.ticket .row { display: flex; justify-content: space-between; gap: 1em; font-weight: 500; }
+.ticket .row span:last-child { font-variant-numeric: tabular-nums; }
+.ticket hr { border: 0; border-top: 1px dashed rgba(20,26,22,.2); }
+.ticket .send { margin-top: .4cqw; background: var(--louro); color: var(--porcelana); border-radius: 99em; padding: .7em 1em; text-align: center; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: .5em; }
+.ticket .send i { width: .6em; height: .6em; border-radius: 50%; background: var(--halo); }
+.browser { left: 4.5cqw; top: 4.5cqw; width: 38cqw; overflow: hidden; }
+.browser .bar { display: flex; align-items: center; gap: .5cqw; padding: 1.1cqw 1.4cqw; background: var(--mesa); }
+.browser .bar i { width: .9cqw; height: .9cqw; border-radius: 50%; background: rgba(20,26,22,.22); }
+.browser .bar span { margin-left: 1cqw; flex: 1; background: var(--branco); border-radius: 99em; padding: .25em .8em; font-size: 1.45cqw; color: var(--pedra); }
+.browser .page { padding: 2.2cqw 2.4cqw 2.6cqw; display: grid; gap: 1.2cqw; }
+.browser .brand { font-family: "Sora"; font-weight: 300; font-size: 3.6cqw; letter-spacing: -.05em; line-height: 1; }
+.browser .menu { display: flex; gap: 1.6cqw; font-size: 1.45cqw; color: var(--pedra); }
+.browser .cta-s { justify-self: start; background: var(--tinta); color: var(--porcelana); border-radius: 99em; padding: .55em 1.1em; font-weight: 600; font-size: 1.5cqw; }
+.plaque { left: 5cqw; top: 50%; translate: 0 -50%; width: 24cqw; aspect-ratio: 1; border-radius: 3cqw; background: var(--louro); color: var(--porcelana); display: grid; place-items: center; align-content: center; gap: 1.4cqw; padding: 2cqw; text-align: center; box-shadow: 0 2cqw 4cqw -2cqw rgba(0,0,0,.5), inset 0 0 0 .3cqw rgba(255,255,255,.08); }
+.plaque svg { width: 8cqw; height: 8cqw; }
+.plaque .wave { width: 6cqw; height: 4cqw; color: var(--halo); }
+.plaque b { font-family: "Sora"; font-weight: 600; font-size: 2.1cqw; letter-spacing: -.02em; line-height: 1.1; }
+.plaque small { font-size: 1.4cqw; opacity: .75; }
+.review { right: 4.5cqw; top: 4.5cqw; width: 30cqw; padding: 2.2cqw; display: grid; gap: .9cqw; }
+.review .stars { color: var(--latao); letter-spacing: .12em; font-size: 2.6cqw; line-height: 1; }
+.review .score { font-family: "Sora"; font-weight: 600; font-size: 4.4cqw; letter-spacing: -.05em; line-height: 1; }
+.review small { color: var(--pedra); font-size: 1.5cqw; }
+.ig { right: 4.5cqw; top: 31cqw; }
+.ig .chip { background: rgba(255,255,255,.9); }
+.ig svg { width: 1.2em; height: 1.2em; }
+
+.badge { position: absolute; right: 1rem; bottom: 1rem; width: 9rem; height: 9rem; z-index: 5; }
+.badge svg { width: 100%; height: 100%; overflow: visible; }
+@media (max-width: 991px) {
+  .stack .pin { height: auto; grid-template-columns: 1fr; padding: 6rem 1.5rem 4rem; gap: 2.5rem; overflow: visible; }
+  .stage { height: auto; perspective: none; }
+  .stack-root { position: relative; display: grid; gap: 1.25rem; }
+  .slide { position: relative; width: 100%; left: auto; top: auto; translate: none; padding: .55rem; border-radius: 1rem; }
+  .slide .crop, .slide .shade { inset: .55rem; border-radius: .6rem; }
+  .badge { display: none; }
+}
+@media (max-width: 600px) {
+  .stack .pin { padding: 4.5rem 1rem 3rem; gap: 2rem; }
+  .slide { aspect-ratio: 1.3; }
+  .slide .title { font-size: 9.6cqw; bottom: 7cqw; }
+  .slide .num { display: none; }
+  .ui { font-size: 2.7cqw; }
+  .ticket, .review { width: 42cqw; } .browser { width: 52cqw; } .plaque { width: 34cqw; }
+  .ig { top: 42cqw; }
+  .ui-ra .ring { width: 80cqw; }
+}
+
+/* 5.6 Na sua mesa: título fixo, tema escuro, pratos subindo */
+.flock { position: relative; height: 340vh; overflow-x: clip; transition: color .7s var(--ease); }
+html[data-theme="dark"] { --page: var(--tinta); }
+html[data-theme="dark"] .flock { color: var(--porcelana); }
+html[data-theme="dark"] .logo { color: var(--porcelana); }
+html[data-theme="dark"] .nav[data-scrolled] { background: rgba(20,26,22,.8); box-shadow: 0 1px 0 rgba(244,245,242,.08); }
+html[data-theme="dark"] .mbar { background: rgba(20,26,22,.82); border-top-color: rgba(244,245,242,.08); }
+.logo { transition: color .7s var(--ease); }
+.flock .sticky { position: sticky; top: 0; height: 100vh; height: 100svh; display: grid; place-items: center; z-index: 1; }
+.flock-title { position: relative; display: flex; flex-direction: column; align-items: center; gap: 1.4rem; text-align: center; }
+.flock-title .para { max-width: 26rem; color: var(--salvia); }
+.stamp { position: absolute; width: 10rem; left: -3rem; top: -8rem; rotate: -10deg; z-index: 3; }
+.stamp svg { width: 100%; overflow: visible; }
+.photos { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.ph { position: absolute; width: var(--w); top: var(--top); rotate: var(--r); pointer-events: auto; will-change: transform; }
+.ph.l { left: var(--o); } .ph.r { right: var(--o); }
+.ph .pic { aspect-ratio: 4 / 5; overflow: hidden; border-radius: .6rem; background: #2A332D; box-shadow: 0 2rem 3rem -1.8rem rgba(0,0,0,.6); }
+.ph .pic img { width: 100%; height: 100%; object-fit: cover; }
+.ph .mv { position: relative; }
+.ph .name { position: absolute; left: 50%; bottom: -.9rem; translate: -50% 0; rotate: var(--nr); white-space: nowrap; font-family: "Sora"; font-weight: 800; font-size: 2.4rem; letter-spacing: -.04em; line-height: 1; color: var(--porcelana); -webkit-text-stroke: .32rem var(--louro); paint-order: stroke fill; }
+.ph .tag { position: absolute; left: .7rem; bottom: .7rem; display: inline-flex; align-items: center; gap: .45em; background: var(--porcelana); color: var(--tinta); font-family: "Geist"; font-weight: 600; font-size: .95rem; padding: .35em .7em; border-radius: 99em; }
+.ph .tag i { width: .55em; height: .55em; border-radius: 50%; background: var(--halo); box-shadow: 0 0 0 .25em rgba(169,227,207,.4); }
+@media (max-width: 991px) { .flock { height: 260vh; } }
+@media (max-width: 600px) {
+  .flock-title { padding: 0 1.5rem; }
+  .stamp { width: 6rem; left: 0; top: -5rem; }
+  .ph { width: 7rem; top: var(--mtop); }
+  .ph.l { left: var(--mo); } .ph.r { right: var(--mo); }
+  .ph .name { font-size: 1.5rem; -webkit-text-stroke-width: .22rem; bottom: -.6rem; }
+  .ph .tag { font-size: max(11px, .68rem); left: .4rem; bottom: .4rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flock { height: auto; }
+  .flock .sticky { position: relative; height: auto; padding: 8rem 1.5rem 4rem; }
+  .photos { position: relative; display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: 2rem; padding: 2rem; }
+  .ph { position: relative; width: auto; top: auto; left: auto; right: auto; }
+}
+.after { min-height: 50vh; display: grid; place-items: center; color: var(--pedra); font-family: "Geist"; font-size: 1.05rem; padding: 4rem 1.5rem 7rem; text-align: center; }
 </style>
 </head>
 <body>
@@ -151,38 +288,116 @@ html[data-page-ready] main { visibility: visible; }
   <section class="hero" id="topo">
     <video muted loop playsinline autoplay preload="none" aria-hidden="true" disablepictureinpicture disableremoteplayback
       data-video-src="img/hero-mesa.mp4" data-video-src-m="img/hero-mesa-m.mp4" data-poster="img/hero-mesa.webp" data-poster-m="img/hero-mesa-m.webp"></video>
-    <div class="veil" aria-hidden="true"></div>
+    <div class="veil" aria-hidden="true"></div><div class="fade" aria-hidden="true"></div>
 
 
     <div class="hero-content">
+      <p class="kicker"><span class="hd" aria-hidden="true"></span>Cardápio em realidade aumentada</p>
       <h1 class="h-hero" data-text-reveal="chars" data-font-weight-hover data-rest="700" data-near="200" data-radius="400">Veja antes<br />de <span class="alt" data-font-weight-hover data-rest="200" data-near="800" data-radius="400">pedir.</span></h1>
-      <p class="lede" data-text-reveal="lines">Cardápio em realidade aumentada, pedidos na mesa e o site do seu restaurante. Tudo pela Previa.</p>
-      <a class="cta" href="#demo"><span class="txt">Ver o cardápio em RA<span class="draw-box"></span></span>
+      <p class="lede" data-text-reveal="lines">Seus pratos em 3D, no tamanho real, em cima da mesa do cliente. Cardápio, pedidos e site numa solução só.</p>
+      <div class="actions">
+        <a class="btn-p" href="#demo"><span class="hd" aria-hidden="true"></span>Ver o cardápio em RA</a>
+        <a class="cta" href="#entrega"><span class="txt">Como funciona<span class="draw-box"></span></span>
         <span class="arrow" aria-hidden="true"><span class="twin">
           <svg viewBox="0 0 14 13"><path fill="currentColor" d="M12.94 5.7 9.95 8 6.9 10.37l.84 1.86V0h-2.55v12.23l.85-1.86L3 8 0 5.7V9.05l6.47 4.95 6.47-4.95z"/></svg>
           <svg viewBox="0 0 14 13"><path fill="currentColor" d="M12.94 5.7 9.95 8 6.9 10.37l.84 1.86V0h-2.55v12.23l.85-1.86L3 8 0 5.7V9.05l6.47 4.95 6.47-4.95z"/></svg>
         </span></span>
-      </a>
+        </a>
+      </div>
     </div>
 
     <!-- Faixa: ícones da Previa (grade 24, traço 1,6, terminais retos, elipse 3:1), no lugar de logos de clientes -->
     <div class="marquee" data-marquee data-direction="left" data-speed="30" data-scroll-speed="10" aria-label="O que a Previa faz">
       <div class="scroll"><div class="coll">
-        <div class="mk" title="Cardápio"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18"/><line x1="8" y1="8" x2="13" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="14" y2="16"/></svg></div>
-        <div class="mk" title="Prato"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="17" rx="9" ry="3"/><path d="M5 16a7 7 0 0 1 14 0"/><circle class="acc" cx="12" cy="7" r="1.3"/></svg></div>
-        <div class="mk" title="Ver na mesa"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="18" rx="9" ry="3"/><line x1="12" y1="3" x2="12" y2="13"/><path d="M8 9l4 4 4-4"/></svg></div>
-        <div class="mk" title="Ancorar"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="14" r="5.5"/><circle class="acc" cx="12" cy="16" r="2.2"/></svg></div>
-        <div class="mk" title="Girar 360"><svg viewBox="0 0 24 24"><path d="M4 14c0 2 3.6 4 8 4s8-2 8-4"/><path d="M6 11.5C4.8 12.2 4 13 4 14"/><path d="M18 11.5c1.2.7 2 1.5 2 2.5"/><rect x="9" y="5" width="6" height="6"/><path d="M15 20l-3-2 3-2"/></svg></div>
-        <div class="mk" title="Modelo 3D"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5"/><line x1="12" y1="12" x2="12" y2="21"/></svg></div>
-        <div class="mk" title="Pedido"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5L6 21z"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/></svg></div>
-        <div class="mk" title="Site"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16"/><line x1="3" y1="8.5" x2="21" y2="8.5"/><line x1="6" y1="6.2" x2="7.5" y2="6.2"/><line x1="9" y1="6.2" x2="10.5" y2="6.2"/></svg></div>
-        <div class="mk" title="NFC"><svg viewBox="0 0 24 24"><path d="M7 8a6 6 0 0 1 0 8"/><path d="M10.5 5.5a10 10 0 0 1 0 13"/><path d="M14 3a14 14 0 0 1 0 18"/></svg></div>
-        <div class="mk" title="Idioma"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><line x1="3" y1="12" x2="21" y2="12"/></svg></div>
+        <div class="mk"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18"/><line x1="8" y1="8" x2="13" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="14" y2="16"/></svg><span>Cardápio digital</span></div>
+        <div class="mk"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="17" rx="9" ry="3"/><path d="M5 16a7 7 0 0 1 14 0"/><circle class="acc" cx="12" cy="7" r="1.3"/></svg><span>Pratos em 3D</span></div>
+        <div class="mk"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="18" rx="9" ry="3"/><line x1="12" y1="3" x2="12" y2="13"/><path d="M8 9l4 4 4-4"/></svg><span>Ver na mesa</span></div>
+        <div class="mk"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="14" r="5.5"/><circle class="acc" cx="12" cy="16" r="2.2"/></svg><span>Tamanho real</span></div>
+        <div class="mk"><svg viewBox="0 0 24 24"><path d="M4 14c0 2 3.6 4 8 4s8-2 8-4"/><path d="M6 11.5C4.8 12.2 4 13 4 14"/><path d="M18 11.5c1.2.7 2 1.5 2 2.5"/><rect x="9" y="5" width="6" height="6"/><path d="M15 20l-3-2 3-2"/></svg><span>Gire 360°</span></div>
+        <div class="mk"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5"/><line x1="12" y1="12" x2="12" y2="21"/></svg><span>Sem baixar app</span></div>
+        <div class="mk"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5L6 21z"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/></svg><span>Pedido na mesa</span></div>
+        <div class="mk"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16"/><line x1="3" y1="8.5" x2="21" y2="8.5"/><line x1="6" y1="6.2" x2="7.5" y2="6.2"/><line x1="9" y1="6.2" x2="10.5" y2="6.2"/></svg><span>Site da casa</span></div>
+        <div class="mk"><svg viewBox="0 0 24 24"><path d="M7 8a6 6 0 0 1 0 8"/><path d="M10.5 5.5a10 10 0 0 1 0 13"/><path d="M14 3a14 14 0 0 1 0 18"/></svg><span>Plaquinha NFC</span></div>
+        <div class="mk"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><line x1="3" y1="12" x2="21" y2="12"/></svg><span>Em 3 idiomas</span></div>
       </div></div>
     </div>
   </section>
 
-  <section class="next" id="entrega"><p>Seção 2 (pilha de cards) entra aqui depois da sua aprovação do topo.</p></section>
+  <section class="stack" id="entrega" data-featured-stack="1.2">
+    <div class="pin">
+      <div class="col" data-scroll-reveal-group>
+        <p class="eyebrow-s" data-scroll-reveal="lines">Tudo o que o seu restaurante precisa no digital, numa solução só.</p>
+        <h2 class="h-sec" data-scroll-reveal="chars" data-font-weight-hover data-rest="700" data-near="200" data-radius="400">Do cardápio <span class="alt" data-font-weight-hover data-rest="200" data-near="800" data-radius="400">ao pedido.</span></h2>
+      </div>
+      <div class="stage">
+        <div class="stack-root">
+        <a class="slide" href="#contato" style="--frame: var(--louro)" data-cursor-marquee-text="Ver em RA →" data-scroll-reveal="element">
+          <div class="crop"><img src="img/c-ra.webp" alt="Pizza margherita vista de cima, com o anel de realidade aumentada" loading="lazy" decoding="async" width="928" height="530" /></div>
+          <div class="shade" aria-hidden="true"></div>
+          <div class="ui ui-ra" aria-hidden="true"><svg class="ring" viewBox="0 0 200 80"><ellipse cx="100" cy="40" rx="96" ry="34"/><ellipse class="r2" cx="100" cy="40" rx="84" ry="27"/></svg><span class="chip glass"><span class="hd"></span>Ver na sua mesa</span><span class="size">30 cm · tamanho real</span></div>
+          <span class="num" aria-hidden="true">01 / 05</span>
+          <h3 class="title">Cardápio em RA</h3>
+        </a>
+        <a class="slide" href="#contato" style="--frame: var(--salvia)" data-cursor-marquee-text="Ver o pedido →" data-scroll-reveal="element">
+          <div class="crop"><img src="img/c-pedido.webp" alt="Hambúrguer smash duplo numa tábua" loading="lazy" decoding="async" width="928" height="530" /></div>
+          <div class="shade" aria-hidden="true"></div>
+          <div class="ui ticket glass" aria-hidden="true"><div class="t-h"><span>MESA 4</span><span>20:41</span></div><div class="row"><span>1× Smash duplo</span><span>R$ 42</span></div><div class="row"><span>1× Batata rústica</span><span>R$ 18</span></div><hr /><div class="row"><b>Total</b><b>R$ 60</b></div><div class="send"><i></i>Enviar pedido</div></div>
+          <span class="num" aria-hidden="true">02 / 05</span>
+          <h3 class="title">Pedido na mesa</h3>
+        </a>
+        <a class="slide" href="#contato" style="--frame: var(--tinta)" data-cursor-marquee-text="Ver o site →" data-scroll-reveal="element">
+          <div class="crop"><img src="img/c-site.webp" alt="Risoto de cogumelos visto de cima" loading="lazy" decoding="async" width="928" height="530" /></div>
+          <div class="shade" aria-hidden="true"></div>
+          <div class="ui browser glass" aria-hidden="true"><div class="bar"><i></i><i></i><i></i><span>casafiore.com.br</span></div><div class="page"><div class="brand">Casa Fiore</div><div class="menu"><span>Cardápio</span><span>Reservas</span><span>Endereço</span></div><div class="cta-s">Reservar mesa</div></div></div>
+          <span class="num" aria-hidden="true">03 / 05</span>
+          <h3 class="title">Site da casa</h3>
+        </a>
+        <a class="slide" href="#contato" style="--frame: var(--pedra)" data-cursor-marquee-text="Ver a plaquinha →" data-scroll-reveal="element">
+          <div class="crop"><img src="img/c-nfc.webp" alt="Poke de salmão numa tigela branca" loading="lazy" decoding="async" width="928" height="530" /></div>
+          <div class="shade" aria-hidden="true"></div>
+          <div class="ui plaque" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="currentColor" fill-rule="evenodd" d="M5 32a27 27 0 1 0 54 0a27 27 0 1 0 -54 0ZM8 31.2a24 24 0 1 0 48 0a24 24 0 1 0 -48 0ZM15 37a17 17 0 1 0 34 0a17 17 0 1 0 -34 0ZM17.4 36.3a14.6 14.6 0 1 0 29.2 0a14.6 14.6 0 1 0 -29.2 0Z"/><circle cx="32" cy="42" r="7" fill="var(--latao)"/></svg><svg class="wave" viewBox="0 0 24 16"><path d="M8 3a7 7 0 0 1 0 10M12 1a10 10 0 0 1 0 14M16 0a13 13 0 0 1 0 16" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><b>Aproxime o celular</b><small>Cardápio · Instagram · Avaliar</small></div>
+          <span class="num" aria-hidden="true">04 / 05</span>
+          <h3 class="title">Plaquinha NFC</h3>
+        </a>
+        <a class="slide" href="#contato" style="--frame: var(--louro)" data-cursor-marquee-text="Ver avaliações →" data-scroll-reveal="element">
+          <div class="crop"><img src="img/c-redes.webp" alt="Tiramisù num copo de vidro" loading="lazy" decoding="async" width="928" height="530" /></div>
+          <div class="shade" aria-hidden="true"></div>
+          <div class="ui review glass" aria-hidden="true"><div class="stars">★★★★★</div><div class="score">4,9</div><small>312 avaliações no Google</small></div><div class="ui ig" aria-hidden="true"><span class="chip glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@casafiore</span></div>
+          <span class="num" aria-hidden="true">05 / 05</span>
+          <h3 class="title">Instagram e Google</h3>
+        </a>
+        </div>
+        <div class="badge" aria-hidden="true"><svg viewBox="0 0 200 200"><defs><path id="bp" d="M100 30a70 70 0 1 1 0 140a70 70 0 1 1 0-140"/></defs><circle cx="100" cy="100" r="98" fill="var(--louro)"/><text font-family="Sora" font-weight="700" font-size="22" fill="var(--porcelana)" letter-spacing="1"><textPath href="#bp" textLength="436" lengthAdjust="spacing">VEJA · ANTES · DE · PEDIR ·</textPath></text><g transform="translate(73 73) scale(.85)" color="var(--porcelana)"><path fill="currentColor" fill-rule="evenodd" d="M5 32a27 27 0 1 0 54 0a27 27 0 1 0 -54 0ZM8 31.2a24 24 0 1 0 48 0a24 24 0 1 0 -48 0ZM15 37a17 17 0 1 0 34 0a17 17 0 1 0 -34 0ZM17.4 36.3a14.6 14.6 0 1 0 29.2 0a14.6 14.6 0 1 0 -29.2 0Z"/><circle cx="32" cy="42" r="7" fill="var(--latao)"/></g></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="flock" id="mesa" data-page-theme="dark">
+    <div class="sticky">
+      <div class="flock-title" data-scroll-reveal-group>
+        <div class="stamp" data-momentum aria-hidden="true"><svg viewBox="0 0 220 130"><ellipse cx="110" cy="65" rx="104" ry="58" fill="var(--porcelana)" stroke="var(--louro)" stroke-width="10"/><g transform="rotate(-8 110 65)"><text x="110" y="78" text-anchor="middle" font-family="Sora" font-weight="400" font-size="44" letter-spacing="-2" fill="var(--louro)">previa</text></g></svg></div>
+        <p class="eyebrow-m" data-scroll-reveal="lines">O prato chega antes do garçom</p>
+        <h2 class="h-team" data-scroll-reveal="chars" data-font-weight-hover data-rest="700" data-near="200" data-radius="400"><span class="alt" data-font-weight-hover data-rest="200" data-near="800" data-radius="400">Na</span> sua <span class="alt" data-font-weight-hover data-rest="200" data-near="800" data-radius="400">mesa.</span></h2>
+        <p class="para" data-scroll-reveal="lines">Cada prato vira um modelo 3D. O cliente aponta o celular, vê o tamanho real em cima da mesa e pede com vontade.</p>
+      </div>
+    </div>
+    <div class="photos">
+      <figure class="ph l" style="--o: 2.5vw; --top: 3%; --mtop: 1%; --w: 14rem; --r: -4deg; --mo: -1.25rem;" data-speed="1"><div class="mv" data-momentum><div class="pic"><img src="img/d-margherita.webp" alt="Margherita" loading="lazy" decoding="async" width="560" height="695" /></div><span class="name" style="--nr: -7deg">Margherita</span></div></figure>
+      <figure class="ph l" style="--o: 21vw; --top: 19%; --mtop: 17%; --w: 11rem; --r: 3deg; --mo: 3rem;" data-speed="0.6"><div class="mv" data-momentum><div class="pic"><img src="img/det-pizza.webp" alt="Em RA · mesa 4" loading="lazy" decoding="async" width="560" height="695" /></div><span class="tag"><i></i>Em RA · mesa 4</span></div></figure>
+      <figure class="ph l" style="--o: 3vw; --top: 33%; --mtop: 33%; --w: 13rem; --r: 5deg; --mo: -1.25rem;" data-speed="1.3"><div class="mv" data-momentum><div class="pic"><img src="img/d-smash.webp" alt="Smash" loading="lazy" decoding="async" width="560" height="695" /></div><span class="name" style="--nr: 4deg">Smash</span></div></figure>
+      <figure class="ph l" style="--o: 23vw; --top: 49%; --mtop: 49%; --w: 13.5rem; --r: -3deg; --mo: 3rem;" data-speed="0.8"><div class="mv" data-momentum><div class="pic"><img src="img/d-risoto.webp" alt="Risoto" loading="lazy" decoding="async" width="560" height="695" /></div><span class="name" style="--nr: -5deg">Risoto</span></div></figure>
+      <figure class="ph l" style="--o: 2vw; --top: 64%; --mtop: 65%; --w: 11.5rem; --r: -6deg; --mo: -1.25rem;" data-speed="1.15"><div class="mv" data-momentum><div class="pic"><img src="img/det-smash.webp" alt="Pedido enviado" loading="lazy" decoding="async" width="560" height="695" /></div><span class="tag"><i></i>Pedido enviado</span></div></figure>
+      <figure class="ph l" style="--o: 20vw; --top: 79%; --mtop: 81%; --w: 14rem; --r: 4deg; --mo: 3rem;" data-speed="0.7"><div class="mv" data-momentum><div class="pic"><img src="img/d-pomodoro.webp" alt="Pomodoro" loading="lazy" decoding="async" width="560" height="695" /></div><span class="name" style="--nr: 6deg">Pomodoro</span></div></figure>
+      <figure class="ph r" style="--o: 3vw; --top: 2%; --mtop: 9%; --w: 13.5rem; --r: 4deg; --mo: -1.25rem;" data-speed="0.75"><div class="mv" data-momentum><div class="pic"><img src="img/d-poke.webp" alt="Poke" loading="lazy" decoding="async" width="560" height="695" /></div><span class="name" style="--nr: 5deg">Poke</span></div></figure>
+      <figure class="ph r" style="--o: 22vw; --top: 17%; --mtop: 25%; --w: 11rem; --r: -5deg; --mo: 3rem;" data-speed="1.25"><div class="mv" data-momentum><div class="pic"><img src="img/det-poke.webp" alt="Via NFC" loading="lazy" decoding="async" width="560" height="695" /></div><span class="tag"><i></i>Via NFC</span></div></figure>
+      <figure class="ph r" style="--o: 2.5vw; --top: 32%; --mtop: 41%; --w: 14rem; --r: -3deg; --mo: -1.25rem;" data-speed="0.9"><div class="mv" data-momentum><div class="pic"><img src="img/d-alfredo.webp" alt="Alfredo" loading="lazy" decoding="async" width="560" height="695" /></div><span class="name" style="--nr: -6deg">Alfredo</span></div></figure>
+      <figure class="ph r" style="--o: 23vw; --top: 48%; --mtop: 57%; --w: 13rem; --r: 5deg; --mo: 3rem;" data-speed="1.4"><div class="mv" data-momentum><div class="pic"><img src="img/d-tiramisu.webp" alt="Tiramisù" loading="lazy" decoding="async" width="560" height="695" /></div><span class="name" style="--nr: 4deg">Tiramisù</span></div></figure>
+      <figure class="ph r" style="--o: 3vw; --top: 63%; --mtop: 73%; --w: 11.5rem; --r: 6deg; --mo: -1.25rem;" data-speed="0.65"><div class="mv" data-momentum><div class="pic"><img src="img/det-petit.webp" alt="Avaliar no Google" loading="lazy" decoding="async" width="560" height="695" /></div><span class="tag"><i></i>Avaliar no Google</span></div></figure>
+      <figure class="ph r" style="--o: 20vw; --top: 78%; --mtop: 89%; --w: 14rem; --r: -4deg; --mo: 3rem;" data-speed="1.05"><div class="mv" data-momentum><div class="pic"><img src="img/d-petit.webp" alt="Petit gâteau" loading="lazy" decoding="async" width="560" height="695" /></div><span class="name" style="--nr: -4deg">Petit gâteau</span></div></figure>
+    </div>
+  </section>
+
+  <section class="after" id="demo"><p>Próximas seções: demonstração em RA e contato.</p></section>
 </main>
 
 <nav class="mbar" aria-label="Atalhos">
@@ -206,6 +421,7 @@ html[data-page-ready] main { visibility: visible; }
   gsap.registerPlugin(ScrollTrigger, SplitText, DrawSVGPlugin, InertiaPlugin);
   const mqReduce = matchMedia('(prefers-reduced-motion: reduce)');
   const reduce = mqReduce.matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
   const touch = matchMedia('(hover: none), (pointer: coarse)').matches;
   const clamp = (a, b, v) => Math.min(b, Math.max(a, v));
 
@@ -357,6 +573,110 @@ html[data-page-ready] main { visibility: visible; }
     ScrollTrigger.create({ trigger: '.hero', start: 'bottom 85%', onEnter: () => bar.setAttribute('data-on', ''), onLeaveBack: () => bar.removeAttribute('data-on') });
   }
 
+  /* 6.4 Revelação ao rolar */
+  function initScrollReveal() {
+    const done = new Set();
+    const anim = (el, tl, at) => {
+      const mode = el.dataset.scrollReveal;
+      el.style.visibility = 'visible';
+      if (reduce) { if (mode !== 'element' && el.hasAttribute('data-font-weight-hover')) { splitFor(el, mode); el.dispatchEvent(new CustomEvent('reveal:done')); } return; }
+      if (mode === 'element') { tl.fromTo(el, { y: 24, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8, ease: 'expo.out' }, at); return; }
+      const s = splitFor(el, mode);
+      const targets = mode === 'chars' ? s.chars : s.lines;
+      tl.from(targets, { yPercent: 135, duration: 1, ease: 'expo.out', stagger: mode === 'chars' ? 0.0175 : 0.07, onComplete: () => el.dispatchEvent(new CustomEvent('reveal:done')) }, at);
+    };
+    document.querySelectorAll('[data-scroll-reveal-group]').forEach(g => {
+      const tl = gsap.timeline({ paused: true });
+      g.querySelectorAll('[data-scroll-reveal]').forEach((el, i) => { done.add(el); anim(el, tl, i * 0.12); });
+      ScrollTrigger.create({ trigger: g, start: 'top 85%', once: true, onEnter: () => tl.play() });
+    });
+    document.querySelectorAll('[data-scroll-reveal]').forEach(el => {
+      if (done.has(el)) return;
+      if (el.dataset.scrollReveal === 'element' && el.closest('[data-featured-stack]') && matchMedia('(min-width: 992px)').matches) { el.style.visibility = 'visible'; return; }
+      const tl = gsap.timeline({ paused: true }); anim(el, tl, 0);
+      ScrollTrigger.create({ trigger: el, start: 'top 88%', once: true, onEnter: () => tl.play() });
+    });
+  }
+
+  /* 6.9 Pilha 3D (desktop) */
+  function initStack() {
+    const sec = document.querySelector('[data-featured-stack]'); if (!sec) return;
+    const pin = sec.querySelector('.pin'), root = sec.querySelector('.stack-root'), badge = sec.querySelector('.badge svg');
+    const slides = [...sec.querySelectorAll('.slide')], n = slides.length;
+    const factor = +sec.dataset.featuredStack || 1.2;
+    gsap.matchMedia().add('(min-width: 992px)', () => {
+      slides.forEach((s, b) => gsap.set(s, { z: -b * 120, y: -b * 40, zIndex: n - b, autoAlpha: 1 }));
+      const tl = gsap.timeline({ paused: true });
+      for (let b = 0; b < n - 1; b++) {
+        tl.to(slides[b], { y: '+=' + innerHeight * 0.9, ease: 'power2.in', duration: 1 }, b)
+          .to(slides[b], { autoAlpha: 0, ease: 'none', duration: 0.25 }, b + 0.7);
+        for (let c = b + 1; c < n; c++) tl.to(slides[c], { z: -(c - b - 1) * 120, y: -(c - b - 1) * 40, ease: 'none', duration: 1 }, b);
+      }
+      tl.fromTo(badge, { rotation: 0 }, { rotation: 180, ease: 'none', duration: n - 1, transformOrigin: '50% 50%' }, 0);
+      const st = ScrollTrigger.create({ trigger: sec, start: 'top top', end: () => '+=' + innerHeight * factor * (n - 1), pin, pinSpacing: true, scrub: 0.3, refreshPriority: 1, invalidateOnRefresh: true, onUpdate: self => tl.progress(self.progress) });
+      let onMove, onLeave;
+      if (!reduce) {
+        const rx = gsap.quickTo(root, 'rotationX', { duration: 0.6, ease: 'power3' }), ry = gsap.quickTo(root, 'rotationY', { duration: 0.6, ease: 'power3' });
+        onMove = e => { const r = pin.getBoundingClientRect(); rx(-((e.clientY - r.top) / r.height - 0.5) * 6); ry(((e.clientX - r.left) / r.width - 0.5) * 10); };
+        onLeave = () => { rx(0); ry(0); };
+        pin.addEventListener('mousemove', onMove); pin.addEventListener('mouseleave', onLeave);
+      }
+      return () => { st.kill(); tl.kill(); if (onMove) { pin.removeEventListener('mousemove', onMove); pin.removeEventListener('mouseleave', onLeave); } gsap.set(slides, { clearProps: 'all' }); gsap.set(root, { clearProps: 'transform' }); };
+    });
+  }
+
+  /* 6.10 Etiqueta que segue o cursor sobre os cards */
+  function initCursorLabel() {
+    if (!fine) return;
+    const wrap = document.querySelector('.cursor-label'), spans = wrap.querySelectorAll('span');
+    const qx = gsap.quickTo(wrap, 'x', { duration: 0.4, ease: 'power3' }), qy = gsap.quickTo(wrap, 'y', { duration: 0.4, ease: 'power3' });
+    let first = true, cur = null, px = 0, py = 0, t = 0;
+    const check = () => {
+      const el = document.elementFromPoint(px, py); const hit = el && el.closest('[data-cursor-marquee-text]');
+      if (hit && hit !== cur) {
+        cur = hit; clearTimeout(t); const txt = hit.dataset.cursorMarqueeText;
+        spans.forEach(s => { s.textContent = txt; s.style.animationDuration = (txt.length / 5) + 's'; s.style.animationPlayState = 'running'; });
+        wrap.dataset.cursorMarqueeStatus = 'active';
+      } else if (!hit && cur) {
+        cur = null; wrap.dataset.cursorMarqueeStatus = 'not-active';
+        t = setTimeout(() => spans.forEach(s => s.style.animationPlayState = 'paused'), 400);
+      }
+    };
+    addEventListener('pointermove', e => { px = e.clientX; py = e.clientY; if (first) { first = false; gsap.set(wrap, { x: px, y: py }); } qx(px); qy(py); check(); }, { passive: true });
+    addEventListener('scroll', () => { if (!first) check(); }, { passive: true });
+  }
+
+  /* 6.11 Pratos subindo em velocidades diferentes */
+  function initParallax() {
+    const photos = [...document.querySelectorAll('.flock .ph')]; if (!photos.length) return;
+    const mm = gsap.matchMedia();
+    mm.add({ d: '(min-width: 992px)', t: '(min-width: 480px) and (max-width: 991px)', m: '(max-width: 479px)', rm: '(prefers-reduced-motion: reduce)' }, ctx => {
+      if (ctx.conditions.rm) return;
+      const k = ctx.conditions.d ? 1 : ctx.conditions.t ? 0.5 : 0.3;
+      photos.forEach(p => { const sp = +p.dataset.speed || 1, dist = 320 * k;
+        gsap.fromTo(p, { y: dist * sp }, { y: -dist * sp, ease: 'none', scrollTrigger: { trigger: '.flock', start: 'clamp(top bottom)', end: 'clamp(bottom top)', scrub: true, invalidateOnRefresh: true, refreshPriority: -1 } }); });
+    });
+  }
+
+  /* 6.12 Toque com inércia nos pratos */
+  function initMomentum() {
+    if (!fine || reduce) return;
+    let lx = 0, ly = 0, vx = 0, vy = 0, x = 0, y = 0;
+    addEventListener('pointermove', e => { x = e.clientX; y = e.clientY; }, { passive: true });
+    gsap.ticker.add(() => { vx = x - lx; vy = y - ly; lx = x; ly = y; });
+    document.querySelectorAll('[data-momentum]').forEach(t => t.addEventListener('mouseenter', () => {
+      const r = t.getBoundingClientRect(); const F = x - (r.left + r.width / 2), R = y - (r.top + r.height / 2);
+      const torque = (F * vy - R * vx) / (Math.hypot(F, R) || 1);
+      gsap.to(t, { inertia: { x: { velocity: clamp(-1080, 1080, vx * 30), end: 0 }, y: { velocity: clamp(-1080, 1080, vy * 30), end: 0 }, rotation: { velocity: clamp(-60, 60, torque * 20), end: 0 }, resistance: 200 } });
+    }));
+  }
+
+  /* 6.13 Troca de tema da página */
+  function initTheme() {
+    document.querySelectorAll('[data-page-theme]').forEach(el => ScrollTrigger.create({ trigger: el, start: 'top 55%', end: 'bottom 45%', refreshPriority: -1,
+      onToggle: self => { if (self.isActive) root.dataset.theme = el.dataset.pageTheme; else root.removeAttribute('data-theme'); } }));
+  }
+
   /* 6.8 Faixa que inverte com a direção da rolagem */
   function initMarquee() {
     document.querySelectorAll('[data-marquee]').forEach(mq => {
@@ -380,7 +700,13 @@ html[data-page-ready] main { visibility: visible; }
   /* 6.2 Sequência de abertura */
   function init() {
     initDrawLines();
+    initScrollReveal();
     initFontWeightHover();
+    initStack();
+    initCursorLabel();
+    initParallax();
+    initMomentum();
+    initTheme();
     initTouchWeight();
     initMobileBar();
     initMarquee();
