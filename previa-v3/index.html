@@ -66,6 +66,10 @@ html[data-page-ready] main { visibility: visible; }
 /* 5.3 Navegação */
 .nav { position: fixed; inset: 0 0 auto; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem; pointer-events: none; }
 .nav > * { pointer-events: auto; }
+/* Logo, menu e contato em cápsulas brancas: a marca fica legível sobre vídeo, fotos e o tema escuro */
+.nav .logo { height: 3rem; padding: 0 1.15rem 0 .8rem; background: var(--branco); border-radius: 99rem; font-size: 1.55rem; gap: .45rem; }
+.nav .logo svg { width: 1.75rem; height: 1.75rem; }
+.nav .logo, .pill, .contact { box-shadow: 0 .6rem 1.6rem -1rem rgba(20,26,22,.35), inset 0 0 0 1px rgba(20,26,22,.05); transition: box-shadow .4s var(--ease); }
 .logo { display: inline-flex; align-items: center; gap: .55rem; color: var(--tinta); font-size: 2.1rem; }
 .logo svg { width: 2.3rem; height: 2.3rem; }
 .word { font-weight: 400; letter-spacing: -.04em; line-height: 1; }
@@ -77,10 +81,8 @@ html[data-page-ready] main { visibility: visible; }
 .draw-box svg { width: 100%; height: 100%; overflow: visible; }
 .contact { height: 3rem; padding: 0 1.25rem; gap: .5rem; background: var(--branco); border-radius: 99rem; display: flex; align-items: center; font-weight: 600; font-size: 1rem; letter-spacing: -.02em; }
 .contact .dot { width: .45rem; height: .45rem; border-radius: 50%; background: var(--latao); }
-@media (max-width: 991px) { .pill { display: none; }
-  .nav { transition: background-color .4s var(--ease), box-shadow .4s var(--ease); }
-  .nav[data-scrolled] { background: rgba(244,245,242,.86); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); box-shadow: 0 1px 0 rgba(20,26,22,.08); } }
-@media (max-width: 600px) { .nav { padding: calc(.75rem + env(safe-area-inset-top)) 1rem .75rem; } .logo { font-size: 1.6rem; min-height: 44px; } .logo svg { width: 1.8rem; height: 1.8rem; } .contact { height: 44px; font-size: 15px; padding: 0 1rem; } }
+@media (max-width: 991px) { .pill { display: none; } }
+@media (max-width: 600px) { .nav { padding: calc(.75rem + env(safe-area-inset-top)) 1rem .75rem; } .nav .logo { height: 44px; font-size: 21px; padding: 0 1rem 0 .7rem; } .nav .logo svg { width: 24px; height: 24px; } .contact { height: 44px; font-size: 15px; padding: 0 1rem; } }
 
 /* 5.4 Topo */
 .hero { position: relative; height: 100vh; height: 100svh; min-height: 34rem; overflow: hidden; display: flex; align-items: center; justify-content: center; }
@@ -235,8 +237,6 @@ html[data-page-ready] .btn-p { animation: up 1s var(--ease) 1.5s both; }
 .flock { position: relative; height: 340vh; overflow-x: clip; transition: color .7s var(--ease); }
 html[data-theme="dark"] { --page: var(--tinta); }
 html[data-theme="dark"] .flock { color: var(--porcelana); }
-html[data-theme="dark"] .logo { color: var(--porcelana); }
-html[data-theme="dark"] .nav[data-scrolled] { background: rgba(20,26,22,.8); box-shadow: 0 1px 0 rgba(244,245,242,.08); }
 html[data-theme="dark"] .mbar { background: rgba(20,26,22,.82); border-top-color: rgba(244,245,242,.08); }
 .logo { transition: color .7s var(--ease); }
 .flock .sticky { position: sticky; top: 0; height: 100vh; height: 100svh; display: grid; place-items: center; z-index: 1; }
