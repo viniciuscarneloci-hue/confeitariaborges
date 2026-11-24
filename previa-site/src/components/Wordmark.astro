@@ -1,0 +1,12 @@
+---
+/* Wordmark: Sora Regular, minúsculas, tracking −4%. O pingo do i é o ponto de ancoragem. */
+interface Props { core?: string }
+const { core = 'var(--latao)' } = Astro.props;
+---
+<span class="word" style={`--core:${core}`}>prev<span class="i">ı</span>a</span>
+<style>
+  .word { font-family: var(--f-display); font-weight: 400; letter-spacing: -.04em; line-height: 1; }
+  .i { position: relative; display: inline-block; }
+  .i::after { content: ""; position: absolute; width: .17em; height: .17em; border-radius: 50%; background: var(--core);
+    left: 50%; transform: translateX(-50%); top: .06em; }
+</style>

@@ -1,0 +1,160 @@
+---
+import { DISHES } from '../scripts/models';
+const first = DISHES[0];
+---
+<section class="section demo" id="demo" data-demo>
+  <div class="wrap layout">
+    <div class="side">
+      <div class="section-head">
+        <h2 class="t-title">Ponha um prato na sua mesa agora.</h2>
+        <p class="t-sub">Este é o cardápio que o seu cliente usa. Escolha um prato, gire com o dedo e abra na mesa com a câmera do celular.</p>
+      </div>
+
+      <ul class="dishes" role="radiogroup" aria-label="Pratos da demonstração">
+        {DISHES.map((d, i) => (
+          <li>
+            <button type="button" role="radio" aria-checked={i === 0 ? 'true' : 'false'} data-dish={d.id}>
+              <img src={`posters/${d.id}.webp`} alt="" width="56" height="56" loading="lazy" />
+              <span class="name">{d.name}</span>
+              <span class="price">{d.price}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+      <p class="note">Cardápio de demonstração. No seu, entram os seus pratos, com o seu nome, cores e preços.</p>
+    </div>
+
+    <div class="stagebox">
+      <div class="viewer">
+        <model-viewer data-demo-mv alt={`${first.name} em 3D`} poster={`posters/${first.id}.webp`}
+          camera-controls touch-action="pan-y" auto-rotate auto-rotate-delay="1200" rotation-per-second="18deg"
+          camera-orbit="-20deg 64deg auto" min-camera-orbit="auto 20deg auto" max-camera-orbit="auto 82deg auto"
+          interaction-prompt="none" shadow-intensity="1" shadow-softness=".85" exposure="1.05" environment-image="neutral"
+          ar ar-modes="webxr scene-viewer quick-look" ar-scale="fixed" ar-placement="floor" loading="lazy">
+          <button slot="ar-button" hidden></button>
+        </model-viewer>
+        <div class="ring" aria-hidden="true"></div>
+      </div>
+
+      <div class="info">
+        <div class="meta">
+          <h3 data-f="name">{first.name}</h3>
+          <p data-f="detail">{first.detail}</p>
+          <p class="t-data" data-f="data">{first.data}</p>
+        </div>
+
+        <div class="open" data-open>
+          <button type="button" class="btn btn-primary" data-ar hidden><span class="dot"></span>Ver na minha mesa</button>
+          <div class="qr" data-qr>
+            <canvas width="120" height="120" aria-label="QR code para abrir a demonstração no celular" role="img"></canvas>
+            <p>Aponte a câmera do celular para o código. O prato abre na sua mesa, em tamanho real.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .layout { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+  .side { position: sticky; top: 112px; }
+  .dishes { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--fio); }
+  .dishes li { border-bottom: 1px solid var(--fio); }
+  .dishes button { width: 100%; display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 18px; padding: 12px 4px;
+    background: none; border: 0; cursor: pointer; text-align: left; border-radius: 0; transition: background-color .2s; }
+  .dishes button:hover { background: rgba(141, 163, 146, .12); }
+  .dishes img { width: 56px; height: 56px; object-fit: contain; }
+  .name { font-size: 17px; }
+  .price { color: var(--pedra); font-variant-numeric: tabular-nums; }
+  .dishes [aria-checked="true"] .name::after { content: ""; display: inline-block; width: 7px; height: 7px; margin-left: 10px; border-radius: 50%; background: var(--latao); vertical-align: middle; }
+  .note { margin-top: 20px; font-size: 14px; color: var(--pedra); max-width: 34em; }
+
+  .viewer { position: relative; aspect-ratio: 5 / 4; border-radius: 28px; background: var(--salvia); overflow: hidden; }
+  .viewer model-viewer { width: 100%; height: 100%; --poster-color: transparent; position: relative; z-index: 1; }
+  .ring { position: absolute; left: 50%; bottom: 17%; width: 62%; aspect-ratio: 3 / 1; translate: -50% 0; border-radius: 50%;
+    border: 2px solid var(--halo); opacity: .9; }
+
+  .info { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 24px 40px; align-items: start; padding: 28px 4px 0; }
+  .meta { flex: 1 1 16em; }
+  .open { flex: 0 1 auto; }
+  .meta { display: grid; gap: 6px; }
+  .meta h3 { font-size: 26px; }
+  .meta p { color: var(--pedra); }
+  .meta .t-data { color: var(--tinta); margin-top: 4px; }
+  .qr { display: grid; grid-template-columns: 120px 13em; gap: 16px; align-items: center; font-size: 14px; color: var(--pedra); }
+  .qr canvas { width: 120px !important; height: 120px !important; border-radius: 10px; background: #fff; }
+
+  @media (max-width: 960px) {
+    .layout { grid-template-columns: 1fr; }
+    .side { position: static; }
+    .stagebox { grid-row: 2; }
+    .side .note { display: none; }
+    .qr { grid-template-columns: 96px 1fr; }
+    .qr canvas { width: 96px !important; height: 96px !important; }
+  }
+</style>
+
+<script>
+  import QR from 'qrcode';
+  import { DISHES, loadViewer, modelSrc } from '../scripts/models';
+
+  const root = document.querySelector<HTMLElement>('[data-demo]')!;
+  const mv = root.querySelector<any>('[data-demo-mv]')!;
+  const arBtn = root.querySelector<HTMLButtonElement>('[data-ar]')!;
+  const qr = root.querySelector<HTMLElement>('[data-qr]')!;
+  const radios = [...root.querySelectorAll<HTMLButtonElement>('[data-dish]')];
+  const field = (k: string) => root.querySelector<HTMLElement>(`[data-f="${k}"]`)!;
+
+  // No celular, a lista vai para baixo do visualizador (mesma marcação, outra posição)
+  const list = root.querySelector('.dishes')!;
+  const mq = matchMedia('(max-width: 960px)');
+  const place = () => {
+    if (mq.matches) root.querySelector('.stagebox')!.after(list), (list as HTMLElement).style.display = 'block', (list as HTMLElement).style.marginTop = '28px';
+    else root.querySelector('.section-head')!.after(list), (list as HTMLElement).style.cssText = '';
+  };
+  place(); mq.addEventListener('change', place);
+
+  let current = DISHES[0].id;
+  const fromUrl = new URLSearchParams(location.search).get('prato');
+  if (fromUrl && DISHES.some(d => d.id === fromUrl)) current = fromUrl;
+
+  async function show(id: string) {
+    current = id;
+    const d = DISHES.find(x => x.id === id)!;
+    radios.forEach(r => r.setAttribute('aria-checked', String(r.dataset.dish === id)));
+    field('name').textContent = d.name;
+    field('detail').textContent = d.detail;
+    field('data').textContent = `${d.data} · ${d.price}`;
+    mv.alt = `${d.name} em 3D`;
+    mv.poster = `posters/${d.id}.webp`;
+    await loadViewer();
+    mv.src = await modelSrc(d.id);
+    drawQr();
+  }
+
+  function drawQr() {
+    const url = new URL(location.href);
+    url.hash = 'demo'; url.search = `?prato=${current}`;
+    QR.toCanvas(qr.querySelector('canvas')!, url.toString(), { width: 240, margin: 1, color: { dark: '#141A16', light: '#FFFFFF' } });
+  }
+
+  radios.forEach(r => r.addEventListener('click', () => show(r.dataset.dish!)));
+  root.addEventListener('keydown', e => {
+    const i = radios.findIndex(r => r.dataset.dish === current);
+    if (!(e.target as HTMLElement).matches('[data-dish]')) return;
+    const n = e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1 : e.key === 'ArrowUp' || e.key === 'ArrowLeft' ? -1 : 0;
+    if (!n) return; e.preventDefault();
+    const next = radios[(i + n + radios.length) % radios.length];
+    next.focus(); show(next.dataset.dish!);
+  });
+
+  // RA disponível (celular): botão direto. Sem RA (computador): QR code.
+  mv.addEventListener('load', () => {
+    const can = !!mv.canActivateAR;
+    arBtn.hidden = !can; qr.hidden = can;
+  });
+  arBtn.addEventListener('click', () => mv.activateAR());
+
+  new IntersectionObserver((es, io) => { if (es[0].isIntersecting) { show(current); io.disconnect(); } }, { rootMargin: '600px' }).observe(root);
+  if (fromUrl) show(current);
+</script>
