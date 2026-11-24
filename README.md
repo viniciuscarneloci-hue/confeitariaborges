@@ -1,3 +1,5 @@
+> **Novo:** o protótipo genérico do produto (qualquer restaurante, com painel do dono e criação do 3D) está em [`oak-ar/`](oak-ar/README.md). Este diretório raiz continua sendo o piloto da Confeitaria Borges.
+
 # Piloto Confeitaria Borges (cardápio 3D + painel)
 
 Cardápio: https://claude.ai/artifact/GSgeN7WYSBo1ASeeKJKAuQ · Painel: mesmo link com `#painel`.
