@@ -508,14 +508,14 @@ html[data-theme="dark"] .mbar { background: rgba(20,26,22,.82); border-top-color
       <div class="demo-side">
         <div class="dish-now">
           <h3 data-f="name">Pizza margherita</h3>
-          <p data-f="detail">Tomate San Marzano, muçarela de búfala, manjericão</p>
-          <p class="data" data-f="data">32 cm · serve 2 · R$ 68</p>
+          <p data-f="detail">Molho de tomate, muçarela de búfala, manjericão</p>
+          <p class="data" data-f="data">29 cm · serve 2 · R$ 68</p>
         </div>
         <div class="dishes" role="radiogroup" aria-label="Pratos da demonstração">
           <button type="button" role="radio" aria-checked="true" data-dish="pizza-margherita"><img src="img/poster-pizza-margherita.webp" alt="" width="64" height="64" loading="lazy" /><span>Margherita</span></button>
           <button type="button" role="radio" aria-checked="false" data-dish="poke-de-salmao"><img src="img/poster-poke-de-salmao.webp" alt="" width="64" height="64" loading="lazy" /><span>Poke</span></button>
-          <button type="button" role="radio" aria-checked="false" data-dish="hamburguer-artesanal"><img src="img/poster-hamburguer-artesanal.webp" alt="" width="64" height="64" loading="lazy" /><span>Hambúrguer</span></button>
-          <button type="button" role="radio" aria-checked="false" data-dish="petit-gateau"><img src="img/poster-petit-gateau.webp" alt="" width="64" height="64" loading="lazy" /><span>Petit gâteau</span></button>
+          <button type="button" role="radio" aria-checked="false" data-dish="risoto-funghi"><img src="img/poster-risoto-funghi.webp" alt="" width="64" height="64" loading="lazy" /><span>Risoto</span></button>
+          <button type="button" role="radio" aria-checked="false" data-dish="spaghetti-pomodoro"><img src="img/poster-spaghetti-pomodoro.webp" alt="" width="64" height="64" loading="lazy" /><span>Pomodoro</span></button>
         </div>
         <div class="open">
           <button type="button" class="btn-p wide" data-ar><span class="hd" aria-hidden="true"></span><span data-ar-label>Ver na minha mesa</span></button>
@@ -586,10 +586,10 @@ html[data-theme="dark"] .mbar { background: rgba(20,26,22,.82); border-top-color
   function initDemo() {
     const root = document.querySelector('#demo'); if (!root) return;
     const DISHES = {
-      'pizza-margherita': { name: 'Pizza margherita', detail: 'Tomate San Marzano, muçarela de búfala, manjericão', data: '32 cm · serve 2 · R$ 68' },
-      'poke-de-salmao': { name: 'Poke de salmão', detail: 'Arroz de sushi, salmão, avocado, gergelim', data: '420 g · 610 kcal · R$ 54' },
-      'hamburguer-artesanal': { name: 'Hambúrguer artesanal', detail: 'Blend de 180 g, cheddar inglês, pão de brioche', data: '380 g · serve 1 · R$ 49' },
-      'petit-gateau': { name: 'Petit gâteau', detail: 'Chocolate 70%, sorvete de baunilha', data: '160 g · contém lactose · R$ 32' }
+      'pizza-margherita': { name: 'Pizza margherita', detail: 'Molho de tomate, muçarela de búfala, manjericão', data: '29 cm · serve 2 · R$ 68' },
+      'poke-de-salmao': { name: 'Poke de salmão', detail: 'Salmão, avocado, edamame, cebola roxa, gergelim', data: 'Tigela de 18 cm · R$ 54' },
+      'risoto-funghi': { name: 'Risoto de cogumelos', detail: 'Arbóreo, mix de cogumelos, parmesão, tomilho', data: 'Prato de 28 cm · R$ 62' },
+      'spaghetti-pomodoro': { name: 'Spaghetti al pomodoro', detail: 'Molho de tomate fresco, manjericão', data: 'Prato de 27 cm · R$ 48' }
     };
     const mv = root.querySelector('[data-mv]'), arBtn = root.querySelector('[data-ar]'), arLabel = root.querySelector('[data-ar-label]');
     const qr = root.querySelector('[data-qr]'), load = root.querySelector('[data-load]');
