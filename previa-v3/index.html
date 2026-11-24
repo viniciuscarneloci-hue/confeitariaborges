@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Previa</title>
+<meta name="description" content="Previa: cardápio em realidade aumentada, pedidos e sites para restaurantes. Veja antes de pedir." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Sora:wght@100..800&display=swap" />
+<style>
+/* Previa · manual v1.3. Layout e animações adaptados do modelo enviado (seção 1: topo). */
+:root {
+  --porcelana: #F4F5F2; --tinta: #141A16; --louro: #22402F; --salvia: #8DA392;
+  --latao: #A07C45; --halo: #A9E3CF; --pedra: #5F6660; --mesa: #E2E5E0; --branco: #FFFFFF;
+  --page: var(--porcelana);
+  --ease: cubic-bezier(.65,.05,0,1);
+  color-scheme: light;
+}
+html { font-size: calc(100vw / 90); }
+@media (max-width: 991px) { html { font-size: calc(100vw / 60); } }
+@media (max-width: 600px) { html { font-size: calc(100vw / 24.375); } }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+a { color: inherit; text-decoration: none; }
+img, video, svg { display: block; }
+body { background: var(--page); color: var(--tinta); font-family: "Sora", system-ui, sans-serif; overflow-x: clip;
+  transition: background-color .7s var(--ease); -webkit-font-smoothing: antialiased; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+main { visibility: hidden; }
+html[data-page-ready] main { visibility: visible; }
+[data-text-reveal], [data-scroll-reveal] { visibility: hidden; }
+:focus-visible { outline: 2px solid var(--latao); outline-offset: 3px; border-radius: 4px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Tipografia: Sora pesada contra Sora leve, no lugar de grotesca + serifa */
+.h-hero { font-family: "Sora"; font-weight: 700; font-size: 9rem; line-height: .86em; letter-spacing: -.055em; }
+.alt { font-weight: 200; letter-spacing: -.045em; }
+.eyebrow-m { font-weight: 300; font-size: 2.5rem; line-height: 1em; letter-spacing: -.035em; }
+.para { font-family: "Geist"; font-size: 1.25rem; line-height: 1.45; letter-spacing: -.01em; }
+.line { padding-bottom: .08em; margin-bottom: -.08em; }
+@media (max-width: 991px) { .h-hero { font-size: 6.4rem; } }
+@media (max-width: 600px) { .h-hero { font-size: 4rem; } .eyebrow-m { font-size: 1.75rem; } }
+
+/* 5.1 Abertura: rabisco em Louro */
+.wipe { position: fixed; inset: 0; z-index: 1000; pointer-events: none; overflow: clip; }
+.wipe svg { width: 100%; height: 100%; }
+.wipe path { fill: none; stroke: var(--louro); stroke-linecap: round; stroke-linejoin: round; stroke-width: 0; }
+.wipe[data-transition-ready] { display: none; }
+
+/* 5.2 Etiqueta do cursor (Halo) */
+.cursor-label { position: fixed; top: 0; left: 0; z-index: 100; pointer-events: none; }
+.cursor-label .card { width: 9.5rem; overflow: hidden; background: var(--halo); color: var(--tinta); transform: scale(0); transition: transform .4s var(--ease); position: relative; border-radius: .25rem; }
+.cursor-label[data-cursor-marquee-status="active"] .card { transform: scale(1); }
+.cursor-label .t { display: flex; position: relative; }
+.cursor-label span { font-weight: 600; font-size: 1.1rem; padding: .45em .3em; white-space: nowrap; animation: marq 3s linear infinite paused; flex: none; }
+.cursor-label span + span { position: absolute; left: 100%; }
+@keyframes marq { to { transform: translateX(-100%); } }
+
+/* 5.3 Navegação */
+.nav { position: fixed; inset: 0 0 auto; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem; pointer-events: none; }
+.nav > * { pointer-events: auto; }
+.logo { display: inline-flex; align-items: center; gap: .55rem; color: var(--tinta); font-size: 2.1rem; }
+.logo svg { width: 2.3rem; height: 2.3rem; }
+.word { font-weight: 400; letter-spacing: -.04em; line-height: 1; }
+.word .i { position: relative; display: inline-block; }
+.word .i::after { content: ""; position: absolute; width: .17em; height: .17em; border-radius: 50%; background: var(--latao); left: 50%; transform: translateX(-50%); top: .06em; }
+.pill { position: absolute; left: 50%; top: 1.25rem; translate: -50% 0; height: 3rem; padding: 0 1.25rem; gap: 1.5rem; background: var(--branco); border-radius: 99rem; display: flex; align-items: center; }
+.navlink { position: relative; display: flex; flex-direction: column; font-weight: 600; font-size: 1rem; letter-spacing: -.02em; }
+.draw-box { position: absolute; left: 0; top: 100%; width: 100%; height: .5em; color: var(--latao); pointer-events: none; }
+.draw-box svg { width: 100%; height: 100%; overflow: visible; }
+.contact { height: 3rem; padding: 0 1.25rem; gap: .5rem; background: var(--branco); border-radius: 99rem; display: flex; align-items: center; font-weight: 600; font-size: 1rem; letter-spacing: -.02em; }
+.contact .dot { width: .45rem; height: .45rem; border-radius: 50%; background: var(--latao); }
+@media (max-width: 991px) { .pill { display: none; } }
+@media (max-width: 600px) { .nav { padding: 1rem; } .logo { font-size: 1.6rem; } .logo svg { width: 1.8rem; height: 1.8rem; } .contact { height: 2.5rem; font-size: .95rem; padding: 0 .9rem; } }
+
+/* 5.4 Topo */
+.hero { position: relative; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.hero video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 50%; }
+.hero .veil { position: absolute; inset: 0; background: radial-gradient(70% 60% at 50% 46%, rgba(244,245,242,.86) 30%, rgba(244,245,242,.35) 75%, rgba(244,245,242,.15)); pointer-events: none; }
+.ccard { position: absolute; left: 50%; top: 50%; width: 16rem; aspect-ratio: 1; translate: -50% -50%; overflow: hidden; z-index: 1; visibility: hidden; opacity: 0; border-radius: .5rem; box-shadow: 0 1.5rem 3rem -1.5rem rgba(20,26,22,.45); }
+.ccard .media { position: absolute; inset: 0; scale: 1.2; }
+.ccard .media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+.ccard .media img.on { opacity: 1; }
+.hero-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 2rem; margin-top: -3rem; text-align: center; }
+.cta { display: inline-flex; align-items: center; gap: .45em; font-weight: 300; font-size: 2.1rem; letter-spacing: -.035em; line-height: 1; }
+.cta .txt { position: relative; }
+.cta .draw-box { top: 112%; height: .6em; }
+.arrow { width: 1em; height: 1em; background: var(--louro); color: var(--branco); display: grid; place-items: center; overflow: hidden; border-radius: .15em; }
+.arrow .twin { position: relative; width: .5em; height: .46em; transition: transform .525s cubic-bezier(.175,.885,.32,1.275); }
+.arrow .twin svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.arrow .twin svg + svg { top: -100%; }
+.cta:hover .arrow .twin { transform: translateY(100%); }
+
+.marquee { position: absolute; left: 0; bottom: 1.5rem; width: 100%; z-index: 2; overflow: hidden; }
+.marquee .scroll { display: flex; margin-left: -10%; width: 120%; }
+.marquee .coll { display: flex; flex: none; }
+.mk { width: 9rem; height: 7rem; margin: 0 2.5rem; display: grid; place-items: center; color: var(--louro); }
+.mk svg { width: 60%; height: 60%; overflow: visible; }
+.mk path, .mk circle, .mk rect, .mk ellipse, .mk line { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: butt; stroke-linejoin: miter; }
+.mk .fill { fill: currentColor; stroke: none; }
+.mk .acc { fill: var(--latao); stroke: none; }
+@media (max-width: 600px) {
+  .hero-content { gap: 1.4rem; margin-top: 5rem; padding: 0 1rem; }
+  .cta { font-size: 1.6rem; }
+  .mk { width: 5.5rem; height: 5rem; margin: 0 1rem; }
+  .ccard { visibility: visible; opacity: 1; width: 7.5rem; top: 13%; translate: -50% 0; rotate: -5deg; }
+  .hero video { object-position: 6% 50%; }
+}
+
+.next { min-height: 60vh; display: grid; place-items: center; color: var(--pedra); font-family: "Geist"; font-size: 1.1rem; padding: 4rem 1.5rem; text-align: center; }
+</style>
+</head>
+<body>
+<div class="wipe" aria-hidden="true"><svg viewBox="0 0 1000 1000" preserveAspectRatio="none"><path d="M43 259C296 11.5688 994 -3 922.994 498.259C851.988 999.517 281.229 1004.28 123 767C-35.2287 529.721 179 259 472 259C765 259 792 498.259 659 654C526 809.741 319 755 285 669.001C251 583.001 299 452 496 452C693 452 876.073 639.171 935 937.001"/></svg></div>
+
+<div class="cursor-label" data-cursor-marquee-status="not-active" aria-hidden="true"><div class="card"><div class="t"><span>Ver em RA →</span><span>Ver em RA →</span></div></div></div>
+
+<header class="nav">
+  <a class="logo" href="#topo" aria-label="previa, início">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M5 32a27 27 0 1 0 54 0a27 27 0 1 0 -54 0ZM8 31.2a24 24 0 1 0 48 0a24 24 0 1 0 -48 0ZM15 37a17 17 0 1 0 34 0a17 17 0 1 0 -34 0ZM17.4 36.3a14.6 14.6 0 1 0 29.2 0a14.6 14.6 0 1 0 -29.2 0Z"/><circle cx="32" cy="42" r="7" fill="var(--latao)"/></svg>
+    <span class="word">prev<span class="i">ı</span>a</span>
+  </a>
+  <nav class="pill" aria-label="Seções">
+    <a class="navlink" href="#entrega" data-draw-line>Cardápio em RA<span class="draw-box"></span></a>
+    <a class="navlink" href="#entrega" data-draw-line>Pedidos<span class="draw-box"></span></a>
+    <a class="navlink" href="#entrega" data-draw-line>Sites<span class="draw-box"></span></a>
+  </nav>
+  <a class="contact" href="#contato"><span class="dot"></span>Contato</a>
+</header>
+
+<main>
+  <section class="hero" id="topo" data-cursor-cards="300">
+    <video muted loop playsinline preload="auto" aria-hidden="true" poster="img/hero-mesa.webp" data-video-src=""></video>
+    <div class="veil" aria-hidden="true"></div>
+
+    <div class="ccard" aria-hidden="true"><div class="media">
+      <img class="on" src="img/p-margherita.webp" alt="" decoding="async" />
+      <img src="img/p-smash.webp" alt="" loading="lazy" decoding="async" />
+      <img src="img/p-fettuccine.webp" alt="" loading="lazy" decoding="async" />
+      <img src="img/p-diavola.webp" alt="" loading="lazy" decoding="async" />
+      <img src="img/p-pomodoro.webp" alt="" loading="lazy" decoding="async" />
+      <img src="img/p-pepperoni.webp" alt="" loading="lazy" decoding="async" />
+      <img src="img/p-alfredo.webp" alt="" loading="lazy" decoding="async" />
+      <img src="img/p-laranja.webp" alt="" loading="lazy" decoding="async" />
+    </div></div>
+
+    <div class="hero-content">
+      <h1 class="h-hero" data-text-reveal="chars" data-font-weight-hover data-rest="700" data-near="200" data-radius="400">Veja antes<br />de <span class="alt" data-font-weight-hover data-rest="200" data-near="800" data-radius="400">pedir.</span></h1>
+      <a class="cta" href="#demo"><span class="txt">Ver o cardápio em RA<span class="draw-box"></span></span>
+        <span class="arrow" aria-hidden="true"><span class="twin">
+          <svg viewBox="0 0 14 13"><path fill="currentColor" d="M12.94 5.7 9.95 8 6.9 10.37l.84 1.86V0h-2.55v12.23l.85-1.86L3 8 0 5.7V9.05l6.47 4.95 6.47-4.95z"/></svg>
+          <svg viewBox="0 0 14 13"><path fill="currentColor" d="M12.94 5.7 9.95 8 6.9 10.37l.84 1.86V0h-2.55v12.23l.85-1.86L3 8 0 5.7V9.05l6.47 4.95 6.47-4.95z"/></svg>
+        </span></span>
+      </a>
+    </div>
+
+    <!-- Faixa: ícones da Previa (grade 24, traço 1,6, terminais retos, elipse 3:1), no lugar de logos de clientes -->
+    <div class="marquee" data-marquee data-direction="left" data-speed="30" data-scroll-speed="10" aria-label="O que a Previa faz">
+      <div class="scroll"><div class="coll">
+        <div class="mk" title="Cardápio"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18"/><line x1="8" y1="8" x2="13" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="14" y2="16"/></svg></div>
+        <div class="mk" title="Prato"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="17" rx="9" ry="3"/><path d="M5 16a7 7 0 0 1 14 0"/><circle class="acc" cx="12" cy="7" r="1.3"/></svg></div>
+        <div class="mk" title="Ver na mesa"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="18" rx="9" ry="3"/><line x1="12" y1="3" x2="12" y2="13"/><path d="M8 9l4 4 4-4"/></svg></div>
+        <div class="mk" title="Ancorar"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="14" r="5.5"/><circle class="acc" cx="12" cy="16" r="2.2"/></svg></div>
+        <div class="mk" title="Girar 360"><svg viewBox="0 0 24 24"><path d="M4 14c0 2 3.6 4 8 4s8-2 8-4"/><path d="M6 11.5C4.8 12.2 4 13 4 14"/><path d="M18 11.5c1.2.7 2 1.5 2 2.5"/><rect x="9" y="5" width="6" height="6"/><path d="M15 20l-3-2 3-2"/></svg></div>
+        <div class="mk" title="Modelo 3D"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5"/><line x1="12" y1="12" x2="12" y2="21"/></svg></div>
+        <div class="mk" title="Pedido"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5L6 21z"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/></svg></div>
+        <div class="mk" title="Site"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16"/><line x1="3" y1="8.5" x2="21" y2="8.5"/><line x1="6" y1="6.2" x2="7.5" y2="6.2"/><line x1="9" y1="6.2" x2="10.5" y2="6.2"/></svg></div>
+        <div class="mk" title="NFC"><svg viewBox="0 0 24 24"><path d="M7 8a6 6 0 0 1 0 8"/><path d="M10.5 5.5a10 10 0 0 1 0 13"/><path d="M14 3a14 14 0 0 1 0 18"/></svg></div>
+        <div class="mk" title="Idioma"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><line x1="3" y1="12" x2="21" y2="12"/></svg></div>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="next" id="entrega"><p>Seção 2 (pilha de cards) entra aqui depois da sua aprovação do topo.</p></section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/InertiaPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.17/dist/lenis.min.js"></script>
+<script>
+(() => {
+  const root = document.documentElement;
+  const reveal = () => { root.setAttribute('data-page-ready', ''); document.querySelectorAll('[data-text-reveal],[data-scroll-reveal]').forEach(e => e.style.visibility = 'visible'); const w = document.querySelector('.wipe'); if (w) w.setAttribute('data-transition-ready', ''); };
+  setTimeout(() => { if (!root.hasAttribute('data-page-ready')) reveal(); }, 4000);
+  if (!window.gsap) { reveal(); return; }
+
+  gsap.registerPlugin(ScrollTrigger, SplitText, DrawSVGPlugin, InertiaPlugin);
+  const mqReduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const reduce = mqReduce.matches;
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const touch = matchMedia('(hover: none), (pointer: coarse)').matches;
+  const clamp = (a, b, v) => Math.min(b, Math.max(a, v));
+
+  /* 6.1 Rolagem suave */
+  let lenis = null;
+  if (!reduce && window.Lenis) {
+    lenis = new Lenis({ lerp: 0.165, wheelMultiplier: 1.25 });
+    gsap.ticker.add(t => lenis.raf(t * 1000));
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.lagSmoothing(0);
+  }
+  document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href')); if (!t) return;
+    e.preventDefault();
+    if (lenis) lenis.scrollTo(t, { duration: 1.4 }); else t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+  }));
+
+  /* Vídeo do topo: só com movimento liberado e quando houver arquivo */
+  const video = document.querySelector('.hero video');
+  const setVideo = () => {
+    const src = video.dataset.videoSrc;
+    if (mqReduce.matches || !src) { video.removeAttribute('src'); video.load(); return; }
+    if (video.getAttribute('src') !== src) { video.src = src; }
+    video.play().catch(() => {});
+  };
+  setVideo(); mqReduce.addEventListener('change', setVideo);
+
+  /* 6.3 Revelação de texto ao carregar */
+  function splitFor(el, mode) {
+    const hasHover = el.hasAttribute('data-font-weight-hover');
+    const s = SplitText.create(el, { type: mode === 'chars' ? 'chars,words,lines' : 'lines,words', linesClass: 'line', charsClass: 'char', mask: 'lines', autoSplit: !hasHover });
+    el._split = s; return s;
+  }
+  function textReveal(baseDelay) {
+    const els = [...document.querySelectorAll('[data-text-reveal]')];
+    const groupIndex = new Map();
+    els.forEach(el => {
+      const mode = el.dataset.textReveal;
+      const g = el.closest('[data-text-reveal-group]');
+      let extra = 0;
+      if (g) { const n = groupIndex.get(g) || 0; extra = n * 0.12; groupIndex.set(g, n + 1); }
+      const s = splitFor(el, mode);
+      el.style.visibility = 'visible';
+      const targets = mode === 'chars' ? s.chars : s.lines;
+      gsap.from(targets, { yPercent: 135, duration: 1, ease: 'expo.out', stagger: mode === 'chars' ? 0.07 * 0.25 : 0.07, delay: baseDelay + extra,
+        onComplete: () => el.dispatchEvent(new CustomEvent('reveal:done')) });
+    });
+  }
+
+  /* 6.5 Sublinhado desenhado à mão */
+  const LINES = [
+    'M5 20.9999C26.7762 16.2245 49.5532 11.5572 71.7979 14.6666C84.9553 16.5057 97.0392 21.8432 109.987 24.3888C116.413 25.6523 123.012 25.5143 129.042 22.6388C135.981 19.3303 142.586 15.1422 150.092 13.3333C156.799 11.7168 161.702 14.6225 167.887 16.8333C181.562 21.7212 194.975 22.6234 209.252 21.3888C224.678 20.0548 239.912 17.991 255.42 18.3055C272.027 18.6422 288.409 18.867 305 17.9999',
+    'M5 24.2592C26.233 20.2879 47.7083 16.9968 69.135 13.8421C98.0469 9.5853 128.407 4.02322 158.059 5.14674C172.583 5.69708 187.686 8.66104 201.598 11.9696C207.232 13.3093 215.437 14.9471 220.137 18.3619C224.401 21.4596 220.737 25.6575 217.184 27.6168C208.309 32.5097 197.199 34.281 186.698 34.8486C183.159 35.0399 147.197 36.2657 155.105 26.5837C158.11 22.9053 162.993 20.6229 167.764 18.7924C178.386 14.7164 190.115 12.1115 201.624 10.3984C218.367 7.90626 235.528 7.06127 252.521 7.49276C258.455 7.64343 264.389 7.92791 270.295 8.41825C280.321 9.25056 296 10.8932 305 13.0242',
+    'M5 29.5014C9.61174 24.4515 12.9521 17.9873 20.9532 17.5292C23.7742 17.3676 27.0987 17.7897 29.6575 19.0014C33.2644 20.7093 35.6481 24.0004 39.4178 25.5014C48.3911 29.0744 55.7503 25.7731 63.3048 21.0292C67.9902 18.0869 73.7668 16.1366 79.3721 17.8903C85.1682 19.7036 88.2173 26.2464 94.4121 27.2514C102.584 28.5771 107.023 25.5064 113.276 20.6125C119.927 15.4067 128.83 12.3333 137.249 15.0014C141.418 16.3225 143.116 18.7528 146.581 21.0014C149.621 22.9736 152.78 23.6197 156.284 24.2514C165.142 25.8479 172.315 17.5185 179.144 13.5014C184.459 10.3746 191.785 8.74853 195.868 14.5292C199.252 19.3205 205.597 22.9057 211.621 22.5014C215.553 22.2374 220.183 17.8356 222.979 15.5569C225.4 13.5845 227.457 11.1105 230.742 10.5292C232.718 10.1794 234.784 12.9691 236.164 14.0014C238.543 15.7801 240.717 18.4775 243.356 19.8903C249.488 23.1729 255.706 21.2551 261.079 18.0014C266.571 14.6754 270.439 11.5202 277.146 13.6125C280.725 14.7289 283.221 17.209 286.393 19.0014C292.321 22.3517 298.255 22.5014 305 22.5014',
+    'M17.0039 32.6826C32.2307 32.8412 47.4552 32.8277 62.676 32.8118C67.3044 32.807 96.546 33.0555 104.728 32.0775C113.615 31.0152 104.516 28.3028 102.022 27.2826C89.9573 22.3465 77.3751 19.0254 65.0451 15.0552C57.8987 12.7542 37.2813 8.49399 44.2314 6.10216C50.9667 3.78422 64.2873 5.81914 70.4249 5.96641C105.866 6.81677 141.306 7.58809 176.75 8.59886C217.874 9.77162 258.906 11.0553 300 14.4892',
+    'M4.99805 20.9998C65.6267 17.4649 126.268 13.845 187.208 12.8887C226.483 12.2723 265.751 13.2796 304.998 13.9998',
+    'M5 29.8857C52.3147 26.9322 99.4329 21.6611 146.503 17.1765C151.753 16.6763 157.115 15.9505 162.415 15.6551C163.28 15.6069 165.074 15.4123 164.383 16.4275C161.704 20.3627 157.134 23.7551 153.95 27.4983C153.209 28.3702 148.194 33.4751 150.669 34.6605C153.638 36.0819 163.621 32.6063 165.039 32.2029C178.55 28.3608 191.49 23.5968 204.869 19.5404C231.903 11.3436 259.347 5.83254 288.793 5.12258C294.094 4.99476 299.722 4.82265 305 5.45025'
+  ];
+  let lineIdx = Math.floor(Math.random() * LINES.length);
+  const makeLine = box => {
+    box.innerHTML = `<svg viewBox="0 0 310 40" preserveAspectRatio="none"><path d="${LINES[lineIdx++ % LINES.length]}" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round"/></svg>`;
+    return box.querySelector('path');
+  };
+  function initDrawLines() {
+    document.querySelectorAll('[data-draw-line]').forEach(link => {
+      const box = link.querySelector('.draw-box'); let tween = null; let leaving = false;
+      link.addEventListener('mouseenter', () => {
+        leaving = false;
+        const p = makeLine(box);
+        gsap.set(p, { drawSVG: '0%' });
+        tween = gsap.to(p, { drawSVG: '100%', duration: 0.5, ease: 'power2.inOut' });
+      });
+      link.addEventListener('mouseleave', () => {
+        leaving = true;
+        const p = box.querySelector('path'); if (!p) return;
+        const out = () => { if (!leaving) return; gsap.to(p, { drawSVG: '100% 100%', duration: 0.5, ease: 'power2.inOut', onComplete: () => { if (leaving) box.innerHTML = ''; } }); };
+        if (tween && tween.isActive()) tween.eventCallback('onComplete', out); else out();
+      });
+    });
+  }
+  function drawAlways(el, delay) {
+    const box = el.querySelector('.draw-box'); const p = makeLine(box);
+    if (reduce) return;
+    gsap.fromTo(p, { drawSVG: '0%' }, { drawSVG: '100%', duration: 0.6, ease: 'power2.inOut', delay });
+  }
+
+  /* 6.6 Peso da fonte segue o cursor */
+  function initFontWeightHover() {
+    if (touch || reduce) return;
+    const roots = [...document.querySelectorAll('[data-font-weight-hover]')].filter(el => !el.parentElement.closest('[data-font-weight-hover]'));
+    const items = [];
+    const pointer = { x: -9999, y: -9999 };
+    const measure = () => items.forEach(it => { const r = it.ch.getBoundingClientRect(); it.cx = r.left + scrollX + r.width / 2; it.cy = r.top + scrollY + r.height / 2; });
+    const setup = chars => {
+      chars.forEach(ch => {
+        const host = ch.closest('[data-font-weight-hover]');
+        const rest = +host.dataset.rest, near = +host.dataset.near, radius = +host.dataset.radius;
+        ch.style.setProperty('--wght', rest);
+        ch.style.fontVariationSettings = "'wght' var(--wght)";
+        items.push({ ch, rest, near, radius, cur: rest, q: gsap.quickTo(ch, '--wght', { duration: 0.4, ease: 'power2.out' }) });
+      });
+      measure();
+    };
+    roots.forEach(r => {
+      if (r.hasAttribute('data-text-reveal') || r.hasAttribute('data-scroll-reveal')) r.addEventListener('reveal:done', () => setup(r._split.chars), { once: true });
+      else setup(SplitText.create(r, { type: 'chars,words', autoSplit: false }).chars);
+    });
+    addEventListener('pointermove', e => { pointer.x = e.clientX + scrollX; pointer.y = e.clientY + scrollY; }, { passive: true });
+    let lastY = scrollY;
+    addEventListener('scroll', () => { pointer.y += scrollY - lastY; lastY = scrollY; measure(); }, { passive: true });
+    addEventListener('resize', measure);
+    gsap.ticker.add(() => {
+      for (const it of items) {
+        const d = Math.hypot(pointer.x - it.cx, pointer.y - it.cy);
+        const f = d >= it.radius ? 0 : 1 - d / it.radius;
+        const lo = Math.min(it.rest, it.near), hi = Math.max(it.rest, it.near);
+        const t = clamp(lo, hi, it.rest + (it.near - it.rest) * f);
+        if (Math.abs(t - it.cur) >= 1) { it.cur = t; it.q(t); }
+      }
+    });
+  }
+
+  /* 6.7 Cartão de foto que segue o cursor */
+  function initCursorCards() {
+    const hero = document.querySelector('[data-cursor-cards]');
+    if (!hero || !finePointer || innerWidth < 992) return;
+    const card = hero.querySelector('.ccard'), media = card.querySelector('.media');
+    const imgs = [...media.querySelectorAll('img')];
+    const threshold = +hero.dataset.cursorCards || 300;
+    gsap.set(card, { autoAlpha: 0 });
+    const qx = gsap.quickTo(card, 'x', { duration: 1, ease: 'power4' });
+    const qy = gsap.quickTo(card, 'y', { duration: 1, ease: 'power4' });
+    const qr = gsap.quickTo(card, 'rotation', { duration: 1, ease: 'power4' });
+    const mx = gsap.quickTo(media, 'xPercent', { duration: 0.6, ease: 'power2' });
+    const my = gsap.quickTo(media, 'yPercent', { duration: 0.7, ease: 'power2' });
+    let first = true, lastX = 0, lastY = 0, travel = 0, idx = 0, idle = 0, hidden = false;
+    hero.addEventListener('mousemove', e => {
+      const x = e.clientX - innerWidth / 2, y = e.clientY - innerHeight / 2 - hero.getBoundingClientRect().top;
+      if (e.target.closest('a,button')) { if (!hidden) { hidden = true; gsap.to(card, { autoAlpha: 0, duration: 0.25, ease: 'power2.out' }); } return; }
+      if (hidden) { hidden = false; gsap.to(card, { autoAlpha: 1, duration: 0.25, ease: 'power2.out' }); }
+      if (first) { first = false; gsap.set(card, { x, y }); lastX = x; lastY = y; gsap.to(card, { autoAlpha: 1, duration: 0.3 }); return; }
+      const dx = (x - lastX) / 2, dy = (y - lastY) / 2;
+      qr((x - lastX) / 4); qx(x); qy(y);
+      mx(-clamp(-8, 8, dx)); my(-clamp(-8, 8, dy));
+      travel += Math.abs(dx) + Math.abs(dy);
+      if (travel > threshold) { travel = 0; imgs[idx].classList.remove('on'); idx = (idx + 1) % imgs.length; imgs[idx].classList.add('on'); }
+      lastX = x; lastY = y;
+      clearTimeout(idle); idle = setTimeout(() => { qr(0); mx(0); my(0); }, 66);
+    });
+    hero.addEventListener('mouseleave', () => { first = true; travel = 0; qr(0); mx(0); my(0); gsap.to(card, { autoAlpha: 0, duration: 0.3 }); });
+  }
+
+  /* 6.8 Faixa que inverte com a direção da rolagem */
+  function initMarquee() {
+    document.querySelectorAll('[data-marquee]').forEach(mq => {
+      const scroll = mq.querySelector('.scroll'), coll = mq.querySelector('.coll');
+      const dir = mq.dataset.direction === 'right' ? 1 : -1;
+      const speed = +mq.dataset.speed || 30;
+      for (let i = 0; i < 2; i++) scroll.appendChild(coll.cloneNode(true));
+      if (reduce) return;
+      const f = innerWidth < 479 ? 0.25 : innerWidth < 991 ? 0.5 : 1;
+      const dur = speed * (coll.offsetWidth / innerWidth) * f;
+      const colls = scroll.querySelectorAll('.coll');
+      gsap.set(colls, { xPercent: dir === 1 ? -100 : 0 });
+      const tl = gsap.to(colls, { xPercent: dir === 1 ? 0 : -100, repeat: -1, ease: 'none', duration: dur });
+      tl.totalProgress(0.5);
+      ScrollTrigger.create({ trigger: mq, start: 'top bottom', end: 'bottom top',
+        onUpdate: self => gsap.to(tl, { timeScale: self.direction === 1 ? 1 : -1, duration: 0.3, overwrite: true }) });
+      gsap.fromTo(scroll, { x: '10vw' }, { x: '-10vw', ease: 'none', scrollTrigger: { trigger: mq, start: 'top bottom', end: 'bottom top', scrub: 0 } });
+    });
+  }
+
+  /* 6.2 Sequência de abertura */
+  function init() {
+    initDrawLines();
+    initFontWeightHover();
+    initCursorCards();
+    initMarquee();
+    ScrollTrigger.refresh();
+  }
+  const start = () => {
+    if (root.hasAttribute('data-page-ready')) return;
+    root.setAttribute('data-page-ready', '');
+    const main = document.querySelector('main');
+    const wipe = document.querySelector('.wipe'), path = wipe.querySelector('path');
+    if (reduce) {
+      wipe.setAttribute('data-transition-ready', '');
+      document.querySelectorAll('[data-text-reveal],[data-scroll-reveal]').forEach(e => e.style.visibility = 'visible');
+      init(); drawAlways(document.querySelector('.cta .txt'), 0); return;
+    }
+    const tl = gsap.timeline();
+    tl.set(main, { autoAlpha: 0 })
+      .set(path, { drawSVG: '0% 100%', strokeWidth: '30%' })
+      .addLabel('reveal', 0.4)
+      .set(main, { autoAlpha: 1 }, 'reveal')
+      .call(() => { textReveal(0.6); init(); drawAlways(document.querySelector('.cta .txt'), 1.3); }, null, 'reveal')
+      .to(path, { drawSVG: '100% 100%', strokeWidth: '5%', duration: 1.25, ease: 'power1.inOut', onComplete: () => wipe.setAttribute('data-transition-ready', '') }, 'reveal');
+  };
+  Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1500))]).then(start);
+})();
+</script>
+</body>
+</html>
