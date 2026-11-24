@@ -3,12 +3,14 @@ import type { Category, Dish, DishModel, Restaurant } from './types'
 /** Dados de demonstração: dois restaurantes para mostrar que a plataforma é multi-restaurante. */
 
 const T0 = '2026-11-20T12:00:00-03:00'
+/** Só para a prévia hospedada no Claude, que não serve arquivos .glb: os modelos vão em base64 dentro de .glb.b64.json. */
+const X = import.meta.env.VITE_MODEL_SUFFIX ?? ''
 
 export const DEMO_MODELS: Record<string, { glb: string; poster: string; size_cm: DishModel['size_cm'] }> = {
-  pizza: { glb: 'models/pizza-margherita.glb', poster: 'posters/pizza-margherita.webp', size_cm: { w: 34, h: 4.4, d: 34 } },
-  burger: { glb: 'models/hamburguer-artesanal.glb', poster: 'posters/hamburguer-artesanal.webp', size_cm: { w: 26.1, h: 10.4, d: 26.1 } },
-  poke: { glb: 'models/poke-de-salmao.glb', poster: 'posters/poke-de-salmao.webp', size_cm: { w: 19.4, h: 7.7, d: 19.4 } },
-  dessert: { glb: 'models/petit-gateau.glb', poster: 'posters/petit-gateau.webp', size_cm: { w: 24.1, h: 5.4, d: 24.1 } },
+  pizza: { glb: `models/pizza-margherita.glb${X}`, poster: 'posters/pizza-margherita.webp', size_cm: { w: 34, h: 4.4, d: 34 } },
+  burger: { glb: `models/hamburguer-artesanal.glb${X}`, poster: 'posters/hamburguer-artesanal.webp', size_cm: { w: 26.1, h: 10.4, d: 26.1 } },
+  poke: { glb: `models/poke-de-salmao.glb${X}`, poster: 'posters/poke-de-salmao.webp', size_cm: { w: 19.4, h: 7.7, d: 19.4 } },
+  dessert: { glb: `models/petit-gateau.glb${X}`, poster: 'posters/petit-gateau.webp', size_cm: { w: 24.1, h: 5.4, d: 24.1 } },
 }
 
 const demo = (k: keyof typeof DEMO_MODELS, yaw = 0): DishModel => ({

@@ -140,12 +140,18 @@ const cache = new Map<string, Promise<string | undefined>>()
 /** Converte "idb:..." em URL utilizável; outras URLs passam direto. */
 export function resolveAsset(url?: string): Promise<string | undefined> {
   if (!url) return Promise.resolve(undefined)
+  if (url.endsWith('.b64.json')) {
+    // prévia hospedada no Claude: o .glb vem em base64 dentro de um JSON (ver build:claude-preview)
+    if (!cache.has(url)) cache.set(url, fetch(url).then((r) => r.json()).then((j: { data: string }) =>
+      URL.createObjectURL(new Blob([Uint8Array.from(atob(j.data), (c) => c.charCodeAt(0))], { type: 'model/gltf-binary' }))).catch(() => undefined))
+    return cache.get(url)!
+  }
   if (!url.startsWith('idb:')) return Promise.resolve(url)
   if (!cache.has(url)) cache.set(url, getFile(url.slice(4)).then((b) => (b ? URL.createObjectURL(b) : undefined)).catch(() => undefined))
   return cache.get(url)!
 }
 export function useAsset(url?: string) {
-  const [out, setOut] = useState<string | undefined>(url && !url.startsWith('idb:') ? url : undefined)
+  const [out, setOut] = useState<string | undefined>(url && !url.startsWith('idb:') && !url.endsWith('.b64.json') ? url : undefined)
   useEffect(() => { let on = true; resolveAsset(url).then((u) => on && setOut(u)); return () => { on = false } }, [url])
   return out
 }

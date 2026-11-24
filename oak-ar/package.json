@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
+    "build:claude-preview": "VITE_MODEL_SUFFIX=.b64.json vite build --outDir dist-preview && node tools/preview-models.mjs dist-preview/models",
     "models": "python3 tools/make_dishes.py public/models",
     "optimize": "node tools/optimize-model.mjs"
   },
