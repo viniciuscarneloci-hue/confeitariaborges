@@ -285,7 +285,7 @@ html[data-theme="dark"] .mbar { background: rgba(20,26,22,.82); border-top-color
 .dish-now h3 { font-family: "Sora"; font-weight: 600; font-size: 1.9rem; letter-spacing: -.035em; }
 .dish-now p { color: var(--pedra); font-size: 1.05rem; }
 .dish-now .data { color: var(--tinta); font-weight: 500; font-variant-numeric: tabular-nums; }
-.dishes { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; }
+.dishes { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; }
 .dishes button { display: grid; justify-items: center; gap: .35rem; padding: .7rem .4rem .8rem; border: 0; border-radius: 1rem; background: var(--branco); cursor: pointer; font-family: "Geist"; font-weight: 500; font-size: .95rem; color: var(--tinta); box-shadow: inset 0 0 0 1px rgba(20,26,22,.08); transition: box-shadow .25s var(--ease), transform .25s var(--ease); min-height: 44px; }
 .dishes button img { width: 3.6rem; height: 3.6rem; object-fit: contain; }
 .dishes button:hover { transform: translateY(-2px); }
@@ -513,7 +513,6 @@ html[data-theme="dark"] .mbar { background: rgba(20,26,22,.82); border-top-color
         </div>
         <div class="dishes" role="radiogroup" aria-label="Pratos da demonstração">
           <button type="button" role="radio" aria-checked="true" data-dish="pizza-margherita"><img src="img/poster-pizza-margherita.webp" alt="" width="64" height="64" loading="lazy" /><span>Margherita</span></button>
-          <button type="button" role="radio" aria-checked="false" data-dish="poke-de-salmao"><img src="img/poster-poke-de-salmao.webp" alt="" width="64" height="64" loading="lazy" /><span>Poke</span></button>
           <button type="button" role="radio" aria-checked="false" data-dish="risoto-funghi"><img src="img/poster-risoto-funghi.webp" alt="" width="64" height="64" loading="lazy" /><span>Risoto</span></button>
           <button type="button" role="radio" aria-checked="false" data-dish="spaghetti-pomodoro"><img src="img/poster-spaghetti-pomodoro.webp" alt="" width="64" height="64" loading="lazy" /><span>Pomodoro</span></button>
         </div>
@@ -587,7 +586,6 @@ html[data-theme="dark"] .mbar { background: rgba(20,26,22,.82); border-top-color
     const root = document.querySelector('#demo'); if (!root) return;
     const DISHES = {
       'pizza-margherita': { name: 'Pizza margherita', detail: 'Molho de tomate, muçarela de búfala, manjericão', data: '29 cm · serve 2 · R$ 68' },
-      'poke-de-salmao': { name: 'Poke de salmão', detail: 'Salmão, avocado, edamame, cebola roxa, gergelim', data: 'Tigela de 18 cm · R$ 54' },
       'risoto-funghi': { name: 'Risoto de cogumelos', detail: 'Arbóreo, mix de cogumelos, parmesão, tomilho', data: 'Prato de 28 cm · R$ 62' },
       'spaghetti-pomodoro': { name: 'Spaghetti al pomodoro', detail: 'Molho de tomate fresco, manjericão', data: 'Prato de 27 cm · R$ 48' }
     };
