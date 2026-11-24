@@ -1,9 +1,9 @@
 ---
 import Symbol from './Symbol.astro';
 const themes = [
-  { id: 'fiore', label: 'Casa Fiore', name: 'Casa Fiore', tag: 'Massa fresca e forno a lenha desde 1998.', dish: 'pizza-margherita', menu: [['Pizza margherita', 'R$ 68'], ['Tagliatelle al ragù', 'R$ 72'], ['Tiramisù da casa', 'R$ 34']] },
-  { id: 'koji', label: 'KŌJI', name: 'KŌJI', tag: 'Omakase de doze peças, servido no balcão.', dish: 'poke-de-salmao', menu: [['Poke de salmão', 'R$ 54'], ['Omakase 12 peças', 'R$ 240'], ['Missô de cogumelos', 'R$ 28']] },
-  { id: 'brasa', label: 'BRASA 22', name: 'BRASA 22', tag: 'Carne na brasa, pão da casa e fogo aceso até tarde.', dish: 'hamburguer-artesanal', menu: [['Hambúrguer artesanal', 'R$ 49'], ['Ancho na brasa', 'R$ 128'], ['Pudim de doce de leite', 'R$ 26']] },
+  { id: 'fiore', label: 'Casa Fiore', name: 'Casa Fiore', tag: 'Massa fresca feita todas as manhãs desde 1998.', photo: 'site-fiore', menu: [['Spaghetti al pomodoro', 'R$ 64'], ['Tagliatelle al ragù', 'R$ 72'], ['Tiramisù da casa', 'R$ 34']] },
+  { id: 'forno', label: 'FORNO 9', name: 'FORNO 9', tag: 'Pizza napolitana, fermentação de 48 horas.', photo: 'site-forno', menu: [['Diavola', 'R$ 74'], ['Margherita', 'R$ 68'], ['Marinara', 'R$ 52']] },
+  { id: 'brasa', label: 'BRASA 22', name: 'BRASA 22', tag: 'Carne na brasa, pão da casa e fogo aceso até tarde.', photo: 'site-brasa', menu: [['Hambúrguer artesanal', 'R$ 49'], ['Ancho na brasa', 'R$ 128'], ['Pudim de doce de leite', 'R$ 26']] },
 ];
 ---
 <section class="section sites" id="sites" data-sites>
@@ -29,7 +29,7 @@ const themes = [
                 <p class="v-tag">{t.tag}</p>
                 <span class="v-btn">Ver o cardápio na mesa</span>
               </div>
-              <div class="v-dish"><img src={`posters/${t.dish}.webp`} alt="" width="480" height="480" loading="lazy" /><i></i></div>
+              <div class="v-photo"><img src={`img/${t.photo}.webp`} alt="" loading="lazy" /></div>
             </div>
             <ul class="v-menu">{t.menu.map(([n, p]) => <li><span>{n}</span><span>{p}</span></li>)}</ul>
             <footer class="v-foot"><Symbol size={12} /> powered by previa</footer>
@@ -63,24 +63,23 @@ const themes = [
   .v-tag { font-family: var(--tag-font, var(--f-body)); font-size: clamp(1.4rem, 3vw, 2.4rem); line-height: 1.15; letter-spacing: -.01em; max-width: 14em; font-style: var(--tag-style, normal); font-weight: var(--tag-weight, 400); }
   .v-copy { display: grid; gap: 24px; justify-items: start; }
   .v-btn { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; background: var(--accent); color: var(--on-accent); border-radius: var(--radius); font-size: 14.5px; font-weight: 500; }
-  .v-dish { position: relative; display: grid; place-items: center; }
-  .v-dish img { width: min(100%, 340px); position: relative; z-index: 1; }
-  .v-dish i { position: absolute; bottom: 16%; width: 78%; aspect-ratio: 3 / 1; border-radius: 50%; border: 2px solid var(--halo); }
+  .v-photo { aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--photo-radius, 0); }
+  .v-photo img { width: 100%; height: 100%; object-fit: cover; }
   .v-menu { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
   .v-menu li { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--rule); font-variant-numeric: tabular-nums; }
   .v-foot { display: flex; align-items: center; gap: 6px; font-size: 12px; opacity: .6; }
 
   .v-fiore { --bg: #FBF7F1; --ink: #5A1A1A; --accent: #5A1A1A; --on-accent: #FBF7F1; --rule: #E9DDD0; --radius: 999px;
-    --name-font: "Instrument Serif", Georgia, serif; --name-style: italic; --name-size: 30px; --tag-font: "Instrument Serif", Georgia, serif; --tag-style: italic; }
-  .v-koji { --bg: #FFFFFF; --ink: #141414; --accent: #141414; --on-accent: #fff; --rule: #141414; --radius: 0;
-    --name-font: var(--f-mono); --name-size: 20px; --name-track: .5em; --tag-weight: 300; }
+    --photo-radius: 200px 200px 8px 8px; --name-font: "Instrument Serif", Georgia, serif; --name-style: italic; --name-size: 30px; --tag-font: "Instrument Serif", Georgia, serif; --tag-style: italic; }
+  .v-forno { --bg: #FFFFFF; --ink: #141414; --accent: #141414; --on-accent: #fff; --rule: #141414; --radius: 0;
+    --name-font: var(--f-mono); --name-size: 20px; --name-track: .5em; --tag-weight: 300; --photo-radius: 0; }
   .v-brasa { --bg: #1E1712; --ink: #F3E6D6; --accent: #E07A3A; --on-accent: #1E1712; --rule: #3A2D24; --radius: 6px;
-    --name-font: var(--f-body); --name-weight: 800; --name-size: 26px; --name-track: -.03em; --tag-weight: 700; }
+    --name-font: var(--f-body); --name-weight: 800; --name-size: 26px; --name-track: -.03em; --tag-weight: 700; --photo-radius: 6px; }
 
   .fine { margin-top: 16px; font-size: 13px; color: var(--pedra); }
   @media (max-width: 760px) {
     .v-hero { grid-template-columns: 1fr; }
-    .v-dish { grid-row: 1; }
+    .v-photo { grid-row: 1; }
     .v-top nav { display: none; }
     .switch button { padding: 0 12px; font-size: 14px; }
   }
@@ -90,7 +89,7 @@ const themes = [
 <script>
   const root = document.querySelector<HTMLElement>('[data-sites]')!;
   const btns = [...root.querySelectorAll<HTMLButtonElement>('[data-theme-btn]')];
-  const urls: Record<string, string> = { fiore: 'casafiore.com.br', koji: 'koji.rest', brasa: 'brasa22.com.br' };
+  const urls: Record<string, string> = { fiore: 'casafiore.com.br', forno: 'forno9.com.br', brasa: 'brasa22.com.br' };
   const pick = (id: string) => {
     btns.forEach(b => { const on = b.dataset.themeBtn === id; b.setAttribute('aria-checked', String(on)); b.tabIndex = on ? 0 : -1; });
     root.querySelectorAll<HTMLElement>('[data-view]').forEach(v => v.setAttribute('aria-hidden', String(v.dataset.view !== id)));

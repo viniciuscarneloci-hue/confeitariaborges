@@ -20,8 +20,8 @@ const items = [
           <span class="sr-only">Cardápio em 3D e RA</span>
           <span class="screen fiore" aria-hidden="true">
             <span class="f-name">Casa Fiore</span>
-            <span class="f-dish"><img src="posters/pizza-margherita.webp" alt="" width="120" height="120" /><i></i></span>
-            <span class="f-row"><b>Pizza margherita</b><em>R$ 68</em></span>
+            <span class="f-dish"><img src="img/pizza-prato.webp" alt="" width="120" height="115" /><i></i></span>
+            <span class="f-row"><b>Margherita</b><em>R$ 68</em></span>
             <span class="f-btn">Ver na mesa</span>
             <span class="pw">powered by previa</span>
           </span>
@@ -91,7 +91,7 @@ const items = [
   .f-dish { position: relative; display: grid; place-items: center; width: 100%; }
   .f-dish img { width: 92%; position: relative; z-index: 1; }
   .f-dish i { position: absolute; bottom: 14%; width: 90%; aspect-ratio: 3/1; border-radius: 50%; border: 1.5px solid var(--halo); }
-  .f-row { width: 100%; display: flex; justify-content: space-between; border-top: 1px solid #E9DDD0; padding-top: 6%; }
+  .f-row { width: 100%; display: flex; justify-content: space-between; gap: 6px; border-top: 1px solid #E9DDD0; padding-top: 6%; }
   .f-row b { font-weight: 500; } .f-row em { font-style: normal; }
   .f-btn { width: 100%; text-align: center; background: #5A1A1A; color: #FBF7F1; border-radius: 99px; padding: 4% 0; }
   .pw { font-size: .8em; color: #8A7F76; }
@@ -102,7 +102,7 @@ const items = [
   .site { aspect-ratio: 16 / 10; border-radius: 6px; background: #FBF7F1; color: #5A1A1A; display: grid; grid-template-rows: auto 1fr auto; font-size: clamp(7px, .9vw, 12px); }
   .s-bar { display: flex; gap: 4px; padding: 2.2% 3%; background: #EFE6DA; }
   .s-bar i { width: 6px; height: 6px; border-radius: 50%; background: #D3C4B3; }
-  .s-hero { display: grid; align-content: center; padding: 0 7%; gap: 4px; background: linear-gradient(90deg, #FBF7F1 45%, transparent), url(/posters/pizza-margherita.webp) right 6% center / 42% no-repeat; }
+  .s-hero { display: grid; align-content: center; padding: 0 7%; gap: 4px; background: linear-gradient(90deg, #FBF7F1 45%, transparent), url(/img/pizza-prato.webp) right 6% center / 38% no-repeat; }
   .s-name { font-family: "Instrument Serif", Georgia, serif; font-style: italic; font-size: 3em; line-height: 1; }
   .s-tag { color: #8A6E5F; }
   .s-nav { display: flex; gap: 7%; padding: 3% 7%; border-top: 1px solid #E9DDD0; }
