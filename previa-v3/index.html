@@ -2,14 +2,18 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#F4F5F2" />
+<link rel="preload" as="image" href="img/hero-mesa-m.webp" media="(max-aspect-ratio: 1/1)" />
+<link rel="preload" as="image" href="img/hero-mesa.webp" media="(min-aspect-ratio: 1/1)" />
 <title>Previa</title>
 <meta name="description" content="Previa: cardápio em realidade aumentada, pedidos e sites para restaurantes. Veja antes de pedir." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Sora:wght@100..800&display=swap" />
 <style>
-/* Previa · manual v1.3. Layout e animações adaptados do modelo enviado (seção 1: topo). */
+/* Previa · manual v1.3. Layout e animações adaptados do modelo enviado (seção 1: topo).
+   Celular é o canal principal: cada regra de tela pequena foi pensada para toque, barra do navegador e áreas seguras. */
 :root {
   --porcelana: #F4F5F2; --tinta: #141A16; --louro: #22402F; --salvia: #8DA392;
   --latao: #A07C45; --halo: #A9E3CF; --pedra: #5F6660; --mesa: #E2E5E0; --branco: #FFFFFF;
@@ -21,7 +25,7 @@ html { font-size: calc(100vw / 90); }
 @media (max-width: 991px) { html { font-size: calc(100vw / 60); } }
 @media (max-width: 600px) { html { font-size: calc(100vw / 24.375); } }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-a { color: inherit; text-decoration: none; }
+a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
 img, video, svg { display: block; }
 body { background: var(--page); color: var(--tinta); font-family: "Sora", system-ui, sans-serif; overflow-x: clip;
   transition: background-color .7s var(--ease); -webkit-font-smoothing: antialiased; }
@@ -38,9 +42,10 @@ html[data-page-ready] main { visibility: visible; }
 .alt { font-weight: 200; letter-spacing: -.045em; }
 .eyebrow-m { font-weight: 300; font-size: 2.5rem; line-height: 1em; letter-spacing: -.035em; }
 .para { font-family: "Geist"; font-size: 1.25rem; line-height: 1.45; letter-spacing: -.01em; }
+.lede { font-family: "Geist"; font-weight: 400; font-size: 1.35rem; line-height: 1.4; letter-spacing: -.01em; color: var(--pedra); max-width: 30em; margin-top: -.5rem; text-wrap: balance; }
 .line { padding-bottom: .08em; margin-bottom: -.08em; }
 @media (max-width: 991px) { .h-hero { font-size: 6.4rem; } }
-@media (max-width: 600px) { .h-hero { font-size: 4rem; } .eyebrow-m { font-size: 1.75rem; } }
+@media (max-width: 600px) { .h-hero { font-size: 4.4rem; } .lede { font-size: max(15px, 1.05rem); max-width: 20em; margin-top: -.25rem; } .eyebrow-m { font-size: 1.75rem; } }
 
 /* 5.1 Abertura: rabisco em Louro */
 .wipe { position: fixed; inset: 0; z-index: 1000; pointer-events: none; overflow: clip; }
@@ -71,17 +76,15 @@ html[data-page-ready] main { visibility: visible; }
 .draw-box svg { width: 100%; height: 100%; overflow: visible; }
 .contact { height: 3rem; padding: 0 1.25rem; gap: .5rem; background: var(--branco); border-radius: 99rem; display: flex; align-items: center; font-weight: 600; font-size: 1rem; letter-spacing: -.02em; }
 .contact .dot { width: .45rem; height: .45rem; border-radius: 50%; background: var(--latao); }
-@media (max-width: 991px) { .pill { display: none; } }
-@media (max-width: 600px) { .nav { padding: 1rem; } .logo { font-size: 1.6rem; } .logo svg { width: 1.8rem; height: 1.8rem; } .contact { height: 2.5rem; font-size: .95rem; padding: 0 .9rem; } }
+@media (max-width: 991px) { .pill { display: none; }
+  .nav { transition: background-color .4s var(--ease), box-shadow .4s var(--ease); }
+  .nav[data-scrolled] { background: rgba(244,245,242,.86); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); box-shadow: 0 1px 0 rgba(20,26,22,.08); } }
+@media (max-width: 600px) { .nav { padding: calc(.75rem + env(safe-area-inset-top)) 1rem .75rem; } .logo { font-size: 1.6rem; min-height: 44px; } .logo svg { width: 1.8rem; height: 1.8rem; } .contact { height: 44px; font-size: 15px; padding: 0 1rem; } }
 
 /* 5.4 Topo */
-.hero { position: relative; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.hero { position: relative; height: 100vh; height: 100svh; min-height: 34rem; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 .hero video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 50%; }
 .hero .veil { position: absolute; inset: 0; background: radial-gradient(70% 60% at 50% 46%, rgba(244,245,242,.86) 30%, rgba(244,245,242,.35) 75%, rgba(244,245,242,.15)); pointer-events: none; }
-.ccard { position: absolute; left: 50%; top: 50%; width: 16rem; aspect-ratio: 1; translate: -50% -50%; overflow: hidden; z-index: 1; visibility: hidden; opacity: 0; border-radius: .5rem; box-shadow: 0 1.5rem 3rem -1.5rem rgba(20,26,22,.45); }
-.ccard .media { position: absolute; inset: 0; scale: 1.2; }
-.ccard .media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
-.ccard .media img.on { opacity: 1; }
 .hero-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 2rem; margin-top: -3rem; text-align: center; }
 .cta { display: inline-flex; align-items: center; gap: .45em; font-weight: 300; font-size: 2.1rem; letter-spacing: -.035em; line-height: 1; }
 .cta .txt { position: relative; }
@@ -101,11 +104,26 @@ html[data-page-ready] main { visibility: visible; }
 .mk .fill { fill: currentColor; stroke: none; }
 .mk .acc { fill: var(--latao); stroke: none; }
 @media (max-width: 600px) {
-  .hero-content { gap: 1.4rem; margin-top: 5rem; padding: 0 1rem; }
-  .cta { font-size: 1.6rem; }
-  .mk { width: 5.5rem; height: 5rem; margin: 0 1rem; }
-  .ccard { visibility: visible; opacity: 1; width: 7.5rem; top: 13%; translate: -50% 0; rotate: -5deg; }
-  .hero video { object-position: 6% 50%; }
+  .hero { min-height: 32rem; }
+  .hero video { object-position: left top; }
+  .hero .veil { background: linear-gradient(180deg, rgba(244,245,242,.55) 0%, rgba(244,245,242,0) 18%), radial-gradient(120% 55% at 50% 50%, rgba(244,245,242,.9) 35%, rgba(244,245,242,.4) 80%, rgba(244,245,242,.2)); }
+  .hero-content { gap: 1.75rem; margin-top: 0; padding: 0 1rem; }
+  .cta { font-size: 1.5rem; min-height: 44px; }
+  .marquee { bottom: calc(1rem + env(safe-area-inset-bottom)); }
+  .mk { width: 4.5rem; height: 4rem; margin: 0 .9rem; }
+}
+
+/* Barra fixa no celular: o contato sempre a um toque */
+.mbar { display: none; }
+@media (max-width: 991px) {
+  .mbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: flex; gap: .5rem; padding: .6rem max(1rem, env(safe-area-inset-left)) calc(.6rem + env(safe-area-inset-bottom));
+    background: rgba(244,245,242,.86); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); border-top: 1px solid rgba(20,26,22,.08);
+    transform: translateY(110%); transition: transform .5s var(--ease); }
+  .mbar[data-on] { transform: none; }
+  .mbar a { flex: 1; min-height: 48px; border-radius: 99rem; display: flex; align-items: center; justify-content: center; gap: .5rem; font-family: "Geist"; font-weight: 600; font-size: 16px; letter-spacing: -.01em; }
+  .mbar .ra { flex: .7; background: var(--branco); color: var(--tinta); box-shadow: inset 0 0 0 1px rgba(20,26,22,.12); }
+  .mbar .go { background: var(--louro); color: var(--porcelana); }
+  .mbar .go .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--halo); }
 }
 
 .next { min-height: 60vh; display: grid; place-items: center; color: var(--pedra); font-family: "Geist"; font-size: 1.1rem; padding: 4rem 1.5rem; text-align: center; }
@@ -130,23 +148,15 @@ html[data-page-ready] main { visibility: visible; }
 </header>
 
 <main>
-  <section class="hero" id="topo" data-cursor-cards="300">
-    <video muted loop playsinline preload="auto" aria-hidden="true" poster="img/hero-mesa.webp" data-video-src=""></video>
+  <section class="hero" id="topo">
+    <video muted loop playsinline autoplay preload="none" aria-hidden="true" disablepictureinpicture disableremoteplayback
+      data-video-src="img/hero-mesa.mp4" data-video-src-m="img/hero-mesa-m.mp4" data-poster="img/hero-mesa.webp" data-poster-m="img/hero-mesa-m.webp"></video>
     <div class="veil" aria-hidden="true"></div>
 
-    <div class="ccard" aria-hidden="true"><div class="media">
-      <img class="on" src="img/p-margherita.webp" alt="" decoding="async" />
-      <img src="img/p-smash.webp" alt="" loading="lazy" decoding="async" />
-      <img src="img/p-fettuccine.webp" alt="" loading="lazy" decoding="async" />
-      <img src="img/p-diavola.webp" alt="" loading="lazy" decoding="async" />
-      <img src="img/p-pomodoro.webp" alt="" loading="lazy" decoding="async" />
-      <img src="img/p-pepperoni.webp" alt="" loading="lazy" decoding="async" />
-      <img src="img/p-alfredo.webp" alt="" loading="lazy" decoding="async" />
-      <img src="img/p-laranja.webp" alt="" loading="lazy" decoding="async" />
-    </div></div>
 
     <div class="hero-content">
       <h1 class="h-hero" data-text-reveal="chars" data-font-weight-hover data-rest="700" data-near="200" data-radius="400">Veja antes<br />de <span class="alt" data-font-weight-hover data-rest="200" data-near="800" data-radius="400">pedir.</span></h1>
+      <p class="lede" data-text-reveal="lines">Cardápio em realidade aumentada, pedidos na mesa e o site do seu restaurante. Tudo pela Previa.</p>
       <a class="cta" href="#demo"><span class="txt">Ver o cardápio em RA<span class="draw-box"></span></span>
         <span class="arrow" aria-hidden="true"><span class="twin">
           <svg viewBox="0 0 14 13"><path fill="currentColor" d="M12.94 5.7 9.95 8 6.9 10.37l.84 1.86V0h-2.55v12.23l.85-1.86L3 8 0 5.7V9.05l6.47 4.95 6.47-4.95z"/></svg>
@@ -175,6 +185,11 @@ html[data-page-ready] main { visibility: visible; }
   <section class="next" id="entrega"><p>Seção 2 (pilha de cards) entra aqui depois da sua aprovação do topo.</p></section>
 </main>
 
+<nav class="mbar" aria-label="Atalhos">
+  <a class="ra" href="#demo">Ver em RA</a>
+  <a class="go" href="#contato"><span class="dot" aria-hidden="true"></span>Quero a Previa</a>
+</nav>
+
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
@@ -186,12 +201,11 @@ html[data-page-ready] main { visibility: visible; }
   const root = document.documentElement;
   const reveal = () => { root.setAttribute('data-page-ready', ''); document.querySelectorAll('[data-text-reveal],[data-scroll-reveal]').forEach(e => e.style.visibility = 'visible'); const w = document.querySelector('.wipe'); if (w) w.setAttribute('data-transition-ready', ''); };
   setTimeout(() => { if (!root.hasAttribute('data-page-ready')) reveal(); }, 4000);
-  if (!window.gsap) { reveal(); return; }
+  if (!window.gsap) { const v = document.querySelector('.hero video'); if (v) v.poster = matchMedia('(max-aspect-ratio: 1/1)').matches ? v.dataset.posterM : v.dataset.poster; reveal(); return; }
 
   gsap.registerPlugin(ScrollTrigger, SplitText, DrawSVGPlugin, InertiaPlugin);
   const mqReduce = matchMedia('(prefers-reduced-motion: reduce)');
   const reduce = mqReduce.matches;
-  const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
   const touch = matchMedia('(hover: none), (pointer: coarse)').matches;
   const clamp = (a, b, v) => Math.min(b, Math.max(a, v));
 
@@ -209,15 +223,20 @@ html[data-page-ready] main { visibility: visible; }
     if (lenis) lenis.scrollTo(t, { duration: 1.4 }); else t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
   }));
 
-  /* Vídeo do topo: só com movimento liberado e quando houver arquivo */
+  /* Vídeo do topo: corte retrato no celular, só com movimento liberado e sem economia de dados */
   const video = document.querySelector('.hero video');
+  const mqPortrait = matchMedia('(max-aspect-ratio: 1/1)');
+  const saveData = !!(navigator.connection && navigator.connection.saveData);
   const setVideo = () => {
-    const src = video.dataset.videoSrc;
-    if (mqReduce.matches || !src) { video.removeAttribute('src'); video.load(); return; }
+    const m = mqPortrait.matches;
+    video.poster = m ? video.dataset.posterM : video.dataset.poster;
+    const src = m ? video.dataset.videoSrcM : video.dataset.videoSrc;
+    if (mqReduce.matches || saveData || !src) { video.pause(); video.removeAttribute('src'); video.load(); return; }
     if (video.getAttribute('src') !== src) { video.src = src; }
     video.play().catch(() => {});
   };
-  setVideo(); mqReduce.addEventListener('change', setVideo);
+  setVideo(); mqReduce.addEventListener('change', setVideo); mqPortrait.addEventListener('change', setVideo);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) video.pause(); else if (video.getAttribute('src')) video.play().catch(() => {}); });
 
   /* 6.3 Revelação de texto ao carregar */
   function splitFor(el, mode) {
@@ -314,34 +333,28 @@ html[data-page-ready] main { visibility: visible; }
     });
   }
 
-  /* 6.7 Cartão de foto que segue o cursor */
-  function initCursorCards() {
-    const hero = document.querySelector('[data-cursor-cards]');
-    if (!hero || !finePointer || innerWidth < 992) return;
-    const card = hero.querySelector('.ccard'), media = card.querySelector('.media');
-    const imgs = [...media.querySelectorAll('img')];
-    const threshold = +hero.dataset.cursorCards || 300;
-    gsap.set(card, { autoAlpha: 0 });
-    const qx = gsap.quickTo(card, 'x', { duration: 1, ease: 'power4' });
-    const qy = gsap.quickTo(card, 'y', { duration: 1, ease: 'power4' });
-    const qr = gsap.quickTo(card, 'rotation', { duration: 1, ease: 'power4' });
-    const mx = gsap.quickTo(media, 'xPercent', { duration: 0.6, ease: 'power2' });
-    const my = gsap.quickTo(media, 'yPercent', { duration: 0.7, ease: 'power2' });
-    let first = true, lastX = 0, lastY = 0, travel = 0, idx = 0, idle = 0, hidden = false;
-    hero.addEventListener('mousemove', e => {
-      const x = e.clientX - innerWidth / 2, y = e.clientY - innerHeight / 2 - hero.getBoundingClientRect().top;
-      if (e.target.closest('a,button')) { if (!hidden) { hidden = true; gsap.to(card, { autoAlpha: 0, duration: 0.25, ease: 'power2.out' }); } return; }
-      if (hidden) { hidden = false; gsap.to(card, { autoAlpha: 1, duration: 0.25, ease: 'power2.out' }); }
-      if (first) { first = false; gsap.set(card, { x, y }); lastX = x; lastY = y; gsap.to(card, { autoAlpha: 1, duration: 0.3 }); return; }
-      const dx = (x - lastX) / 2, dy = (y - lastY) / 2;
-      qr((x - lastX) / 4); qx(x); qy(y);
-      mx(-clamp(-8, 8, dx)); my(-clamp(-8, 8, dy));
-      travel += Math.abs(dx) + Math.abs(dy);
-      if (travel > threshold) { travel = 0; imgs[idx].classList.remove('on'); idx = (idx + 1) % imgs.length; imgs[idx].classList.add('on'); }
-      lastX = x; lastY = y;
-      clearTimeout(idle); idle = setTimeout(() => { qr(0); mx(0); my(0); }, 66);
-    });
-    hero.addEventListener('mouseleave', () => { first = true; travel = 0; qr(0); mx(0); my(0); gsap.to(card, { autoAlpha: 0, duration: 0.3 }); });
+  /* No toque não há cursor: o peso da fonte passa como uma onda depois da revelação e a cada toque no título */
+  function initTouchWeight() {
+    if (!touch || reduce) return;
+    const h = document.querySelector('.h-hero'); if (!h) return;
+    const host = ch => ch.closest('[data-font-weight-hover]');
+    const wave = () => {
+      const chars = h._split ? h._split.chars : []; if (!chars.length) return;
+      chars.forEach(ch => { ch.style.fontVariationSettings = "'wght' var(--wght)"; if (!ch.style.getPropertyValue('--wght')) ch.style.setProperty('--wght', host(ch).dataset.rest); });
+      gsap.timeline()
+        .to(chars, { '--wght': i => +host(chars[i]).dataset.near, duration: 0.45, ease: 'sine.inOut', stagger: 0.045, overwrite: true })
+        .to(chars, { '--wght': i => +host(chars[i]).dataset.rest, duration: 0.6, ease: 'sine.inOut', stagger: 0.045 }, 0.35);
+    };
+    h.addEventListener('reveal:done', () => setTimeout(wave, 250), { once: true });
+    h.addEventListener('click', wave);
+  }
+
+  /* Barra fixa do celular aparece depois do topo */
+  function initMobileBar() {
+    const bar = document.querySelector('.mbar'); if (!bar) return;
+    const nav = document.querySelector('.nav');
+    ScrollTrigger.create({ start: 40, onEnter: () => nav.setAttribute('data-scrolled', ''), onLeaveBack: () => nav.removeAttribute('data-scrolled') });
+    ScrollTrigger.create({ trigger: '.hero', start: 'bottom 85%', onEnter: () => bar.setAttribute('data-on', ''), onLeaveBack: () => bar.removeAttribute('data-on') });
   }
 
   /* 6.8 Faixa que inverte com a direção da rolagem */
@@ -368,7 +381,8 @@ html[data-page-ready] main { visibility: visible; }
   function init() {
     initDrawLines();
     initFontWeightHover();
-    initCursorCards();
+    initTouchWeight();
+    initMobileBar();
     initMarquee();
     ScrollTrigger.refresh();
   }
